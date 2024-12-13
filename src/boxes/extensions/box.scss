@@ -13,6 +13,10 @@
   background-color: darkred;
 }
 
+.gray {
+  background-color: rgb(148, 110, 110);
+}
+
 /* Brand colors are special. They must be included using a
  * SASS mix-in (shown here) or using a CSS variable like
  * `var(--brand-01)`. */

@@ -15,16 +15,29 @@
       "component": "blueBox",
       "slot": "Boxes"
     },
-        {
+    {
       "name": "Brand box",
       "component": "blueBox",
       "slot": "Boxes"
+    },
+    {
+      "name": "home-widget-db-link",
+      "slot": "homepage-dashboard-slot",
+      "component": "homeWidgetDbLink",
+      "meta": {
+          "name": "Home",
+          "slot": "home-dashboard-slot",
+          "title": ""
+      },
+      "order": 0,
+      "online": true,
+      "offline": true
     }
   ],
   "pages": [
     {
       "component": "root",
-      "route": "root"
+      "route": "test"
     }
   ]
 }

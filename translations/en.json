@@ -1,4 +1,10 @@
 {
+  "growthChart": {
+    "title": "Growth Chart",
+    "height": "Height (cm)",
+    "addButton": "Add Data",
+    "loading": "Loading chart data..."
+  },
   "casualGreeting": "hey",
   "configSystem": "Configuration system",
   "configSystemExplainer": "The greeting shown below is driven by the configuration system. To change the configuration properties, click the spanner icon in the navbar to pull up the Implementer Tools panel. Then, type <2>template</2> into the <4>Search configuration</4> input. This should filter the configuration properties to show only those that are relevant to this module. You can change the values of these properties and click <6>Save</6> to see the changes reflected in the UI",

@@ -9,7 +9,7 @@ import React from 'react';
 import styles from './box.scss';
 
 const RedBox: React.FC = () => {
-  return <div className={styles.brand}></div>;
+  return <div>hola</div>;
 };
 
 export default RedBox;

@@ -9,7 +9,12 @@ import React from 'react';
 import styles from './box.scss';
 
 const BlueBox: React.FC = () => {
-  return <div className={styles.blue}></div>;
+  return (
+    <div className={styles.gray}>
+      Hola Mundo
+      <p>Lorem Ipsum</p>
+    </div>
+  );
 };
 
 export default BlueBox;
