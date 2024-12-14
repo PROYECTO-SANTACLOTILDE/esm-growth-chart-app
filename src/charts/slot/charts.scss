@@ -1,30 +1,24 @@
+@use '@carbon/layout';
 
-/* General features of extension styling are controlled
- * at the slot level. The boxes should know as little as
- * possible about the context where they are used, so
- * they do not set their own sizes.
- *
- * `> * > *` is used to target the outermost DOM node of
- * the extension.
- */
- @use '@carbon/layout';
-
-.chart > * > * {
-  height: layout.$spacing-10;
-  width: layout.$spacing-10;
-}
-
-.charts {
+.chartSlot {
   margin: layout.$spacing-07 0;
   display: flex;
+  flex-direction: column;
   gap: layout.$spacing-05;
 }
 
-.container {
+.chartSlot > * {
   max-width: 50rem;
-  margin-top: layout.$spacing-09;
+  margin: 0 auto;
+}
 
-  > * + * {
-    margin-top: layout.$spacing-06;
+.chartSlot > * + * {
+  margin-top: layout.$spacing-06;
+}
+
+.chart {
+  > * > * {
+    height: layout.$spacing-10;
+    width: layout.$spacing-10;
   }
 }

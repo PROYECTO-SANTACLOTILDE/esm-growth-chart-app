@@ -1,0 +1,38 @@
+@use '@carbon/layout';
+@use '@openmrs/esm-styleguide/src/vars' as *;
+
+.growthChartTile {
+  background-color: var(--ui-background);
+  padding: layout.$spacing-07;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  @include type.type-style('heading-04');
+  margin-bottom: layout.$spacing-05;
+}
+
+.chartContainer {
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.blue {
+  background-color: darkblue;
+}
+
+.red {
+  background-color: darkred;
+}
+
+.brand {
+  @include brand-01(background-color);
+  color: white;
+  padding: layout.$spacing-03;
+}
