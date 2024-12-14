@@ -21,6 +21,16 @@
       "slot": "Boxes"
     },
     {
+      "name": "Growth Chart",
+      "component": "growthChart",
+      "slot": "Charts"
+    },
+    {
+      "name": "Growth Chart",
+      "component": "growthChart",
+      "slot": "Charts"
+    },
+    {
       "name": "home-widget-db-link",
       "slot": "homepage-dashboard-slot",
       "component": "homeWidgetDbLink",

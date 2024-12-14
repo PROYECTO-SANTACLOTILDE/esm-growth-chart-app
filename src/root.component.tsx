@@ -15,6 +15,7 @@ import Greeter from './greeter/greeter.component';
 import PatientGetter from './patient-getter/patient-getter.component';
 import Resources from './resources/resources.component';
 import styles from './root.scss';
+import { Charts } from './charts/slot/charts.component';
 
 const Root: React.FC = () => {
   const { t } = useTranslation();
@@ -31,6 +32,7 @@ const Root: React.FC = () => {
       <Boxes />
       {/* PatientGetter: demonstrates data fetching */}
       <PatientGetter />
+      <Charts />
       <Resources />
     </div>
   );
