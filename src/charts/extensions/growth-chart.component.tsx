@@ -13,6 +13,16 @@ import {
 import { Tile } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
 import styles from './growthChart.module.scss';
+import {
+  FetchResponse,
+  OpenmrsResource,
+  fhirBaseUrl,
+  openmrsFetch,
+  useSession,
+  restBaseUrl,
+} from '@openmrs/esm-framework';
+import useSWR from 'swr';
+import { uniqBy } from 'lodash-es';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
