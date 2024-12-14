@@ -1,27 +1,9 @@
-@use '@carbon/layout';
+/* Extensions should supply the minimum amount of styling
+ * necessary. Here, the extensions set only their colors.
+ * Their sizes and other general features of their display
+ * is controlled by the slot. */
+@use "@carbon/layout";
 @use '@openmrs/esm-styleguide/src/vars' as *;
-
-.growthChartTile {
-  background-color: var(--ui-background);
-  padding: layout.$spacing-07;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.title {
-  @include type.type-style('heading-04');
-  margin-bottom: layout.$spacing-05;
-}
-
-.chartContainer {
-  height: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f4f4f4;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
 
 .blue {
   background-color: darkblue;
@@ -31,8 +13,30 @@
   background-color: darkred;
 }
 
+.gray {
+  background-color: rgb(148, 110, 110);
+}
+
+/* Brand colors are special. They must be included using a
+ * SASS mix-in (shown here) or using a CSS variable like
+ * `var(--brand-01)`. */
 .brand {
   @include brand-01(background-color);
   color: white;
   padding: layout.$spacing-03;
+}
+
+.growthChartCard {
+  margin: 20px;
+  padding: 20px;
+}
+
+.chartContainer {
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f4f4f4;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
 }
