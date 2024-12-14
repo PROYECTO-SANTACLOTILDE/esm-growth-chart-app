@@ -42,11 +42,8 @@ const GrowthChart: React.FC = () => {
   };
 
   return (
-    <Tile className={styles.growthChartTile}>
-      <h3>{t('growthChart.title')}</h3>
-      <div className={styles.chartContainer}>
-        <Line data={data} options={options} />
-      </div>
+    <Tile className={styles.white}>
+      <Line data={data} options={options} />
     </Tile>
   );
 };

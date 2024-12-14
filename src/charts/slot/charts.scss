@@ -1,9 +1,9 @@
 @use '@carbon/layout';
 
-.chartSlot {
+.margin {
   margin: layout.$spacing-07 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: layout.$spacing-05;
 }
 
@@ -16,9 +16,11 @@
   margin-top: layout.$spacing-06;
 }
 
-.chart {
-  > * > * {
-    height: layout.$spacing-10;
-    width: layout.$spacing-10;
+.container {
+  max-width: 50rem;
+  margin-top: layout.$spacing-09;
+
+  > * + * {
+    margin-top: layout.$spacing-06;
   }
 }
