@@ -32,41 +32,10 @@ interface FHIRResponse {
 export function useGrowthData(patientUuid: string) {
   const apiUrl = `${fhirBaseUrl}/Observation?patient=${patientUuid}&code=height,weight`;
 
-  const { data, error, isLoading } = useSWR<{data: Array<{ resource: fhir.Observation }>;},
-    Error
-  >(patientUuid ? apiUrl : null, openmrsFetch);
-
-
-  const growthData = {
-    height: [] as { date: string; value: number; unit: string }[],
-    weight: [] as { date: string; value: number; unit: string }[],
-  };
-
-  if (data) {
-    data.data?.forEach(({ resource }) => {
-      const { effectiveDateTime, valueQuantity } = resource;
-
-      // Verificar si la observación tiene fecha y valor válido
-      if (effectiveDateTime && valueQuantity?.value && valueQuantity.unit) {
-        const measurement = {
-          date: new Date(effectiveDateTime).toLocaleDateString(),
-          value: valueQuantity.value,
-          unit: valueQuantity.unit,
-        };
-
-        // Filtrar por código de altura y peso
-        const code = resource?.code?.coding?.[0]?.code?.toLowerCase();
-        if (code === 'height') {
-          growthData.height.push(measurement);
-        } else if (code === 'weight') {
-          growthData.weight.push(measurement);
-        }
-      }
-    });
-  }
+  const { data, error, isLoading } = useSWR<{data: Array<{ resource: fhir.Observation }>;}, Error> (patientUuid ? apiUrl : null, openmrsFetch);
 
   return {
-    growthData,
+    data,
     isLoading,
     error,
   };
