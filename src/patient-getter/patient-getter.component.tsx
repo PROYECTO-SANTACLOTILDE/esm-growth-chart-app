@@ -21,7 +21,7 @@ function PatientGetter() {
   const { t } = useTranslation();
   const [patientName, setPatientName] = useState(null);
   const { patient, isLoading } = usePatient(patientName);
-  const { data, isLoading: isGrowthDataLoading } = useGrowthData(patientName);
+  const { observation, isLoading: isGrowthDataLoading } = useGrowthData(patientName);
 
   return (
     <div className={styles.container}>
@@ -38,7 +38,9 @@ function PatientGetter() {
             : null}
         </Tile>
       ) : null}
-      {data ? <Tile className={styles.tile}>{data ? `${data.data}` : null}</Tile> : null}
+      {observation ? (
+        <Tile className={styles.tile}>{observation ? `${observation.id} ${observation.meta.versionId}` : null}</Tile>
+      ) : null}
     </div>
   );
 }

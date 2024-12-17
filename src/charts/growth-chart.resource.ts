@@ -22,20 +22,31 @@ import { fhirBaseUrl, openmrsFetch } from '@openmrs/esm-framework';
  * @returns The first matching patient
  */
 
-interface FHIRResponse {
-  entry: Array<{ resource: fhir.Location }>;
-  total: number;
-  type: string;
-  resourceType: string;
+interface Observation {
+  resource: {
+    code: {
+      coding: Array<{ display: string }>;
+    };
+    effectiveDateTime: string;
+    valueQuantity: {
+      value: number;
+      unit: string;
+    };
+  };
 }
 
-export function useGrowthData(patientUuid: string) {
-  const apiUrl = `${fhirBaseUrl}/Observation?patient=${patientUuid}&code=height,weight`;
+export function useGrowthData(query: string) {
+  const url = `${fhirBaseUrl}/Observation`;
 
-  const { data, error, isLoading } = useSWR<{data: Array<{ resource: fhir.Observation }>;}, Error> (patientUuid ? apiUrl : null, openmrsFetch);
+  const { data, error, isLoading } = useSWR<
+    {
+      data: { entry: Array<{ resource: fhir.Observation }> };
+    },
+    Error
+  >(query ? url : null, openmrsFetch);
 
   return {
-    data,
+    observation: data ? data?.data?.entry[0].resource : null,
     isLoading,
     error,
   };
