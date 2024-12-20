@@ -42,12 +42,29 @@
       "order": 0,
       "online": true,
       "offline": true
+    },
+    {
+      "name": "Pruebas card link nuevo",
+      "slot": "system-admin-page-card-link-slot",
+      "component": "pruebaCardLink",
+      "online": true,
+      "offline": true
+    },
+    {
+      "name": "Link Prueba",
+      "component": "componenteNuevoLink",
+      "online": true,
+      "offline": true
     }
   ],
   "pages": [
     {
       "component": "root",
       "route": "test"
+    },
+    {
+      "component": "prueba",
+      "route": "prueba"
     }
   ]
 }
