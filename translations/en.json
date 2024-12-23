@@ -8,8 +8,6 @@
   "designDocs": "Design docs",
   "designDocsExplainer": "Read the O3 design documentation",
   "explainer": "The following examples demonstrate some key features of the O3 framework",
-  "extensionExplainer": "Here are some colored boxes. Because they are attached as extensions within a slot, an admin can change what boxes are shown using configuration. These boxes happen to be defined in this module, but they could attach to this slot even if they were in a different module",
-  "extensionSystem": "Extension system",
   "formalGreeting": "hello",
   "frontendDocs": "Frontend docs",
   "getPatient": "Get a patient named",
