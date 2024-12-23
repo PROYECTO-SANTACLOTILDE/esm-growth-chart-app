@@ -12,6 +12,8 @@ import {
 } from 'chart.js';
 import { Tile } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
+import { useConfig } from '@openmrs/esm-framework';
+import { type Config } from '../../config-schema';
 import styles from './growthChart.module.scss';
 import {
   FetchResponse,
