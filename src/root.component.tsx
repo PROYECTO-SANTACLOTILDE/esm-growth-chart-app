@@ -10,10 +10,6 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Boxes } from './boxes/slot/boxes.component';
-import Greeter from './greeter/greeter.component';
-import PatientGetter from './patient-getter/patient-getter.component';
-import Resources from './resources/resources.component';
 import styles from './root.scss';
 import { Charts } from './charts/slot/charts.component';
 
