@@ -26,14 +26,7 @@ const Root: React.FC = () => {
       <p className={styles.explainer}>
         {t('explainer', 'The following examples demonstrate some key features of the O3 framework')}.
       </p>
-      {/* Greeter: demonstrates the configuration system */}
-      <Greeter />
-      {/* Boxes: demonstrates the extension system */}
-      <Boxes />
-      {/* PatientGetter: demonstrates data fetching */}
-      <PatientGetter />
       <Charts />
-      <Resources />
     </div>
   );
 };
