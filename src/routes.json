@@ -9,37 +9,6 @@
       "name": "Growth Chart",
       "component": "growthChart",
       "slot": "Charts"
-    },
-    {
-      "name": "Growth Chart",
-      "component": "growthChart",
-      "slot": "Charts"
-    },
-    {
-      "name": "home-widget-db-link",
-      "slot": "homepage-dashboard-slot",
-      "component": "homeWidgetDbLink",
-      "meta": {
-          "name": "Home",
-          "slot": "home-dashboard-slot",
-          "title": ""
-      },
-      "order": 0,
-      "online": true,
-      "offline": true
-    },
-    {
-      "name": "Pruebas card link nuevo",
-      "slot": "system-admin-page-card-link-slot",
-      "component": "pruebaCardLink",
-      "online": true,
-      "offline": true
-    },
-    {
-      "name": "Link Prueba",
-      "component": "componenteNuevoLink",
-      "online": true,
-      "offline": true
     }
   ],
   "pages": [
