@@ -1545,6 +1545,70 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@duvet05/esm-template-app@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@duvet05/esm-template-app@workspace:."
+  dependencies:
+    "@carbon/react": "npm:^1.68.0"
+    "@openmrs/esm-framework": "npm:^6.0.1-pre.2553"
+    "@openmrs/esm-styleguide": "npm:next"
+    "@playwright/test": "npm:^1.42.1"
+    "@swc/cli": "npm:^0.3.12"
+    "@swc/core": "npm:^1.3.68"
+    "@swc/jest": "npm:^0.2.36"
+    "@testing-library/dom": "npm:^10.1.0"
+    "@testing-library/jest-dom": "npm:^6.4.5"
+    "@testing-library/react": "npm:^15.0.6"
+    "@testing-library/user-event": "npm:^14.5.2"
+    "@types/jest": "npm:^29.5.12"
+    "@types/react": "npm:^18.2.14"
+    "@types/react-dom": "npm:^18.2.6"
+    "@types/react-router": "npm:^5.1.20"
+    "@types/react-router-dom": "npm:^5.3.3"
+    "@types/webpack-env": "npm:^1.18.1"
+    "@typescript-eslint/eslint-plugin": "npm:^7.8.0"
+    "@typescript-eslint/parser": "npm:^7.8.0"
+    chart.js: "npm:^4.4.7"
+    css-loader: "npm:^6.8.1"
+    dotenv: "npm:^16.0.3"
+    eslint: "npm:^8.50.0"
+    eslint-config-prettier: "npm:^8.8.0"
+    eslint-plugin-jest-dom: "npm:^5.4.0"
+    eslint-plugin-prettier: "npm:^5.1.3"
+    eslint-plugin-react-hooks: "npm:^4.6.2"
+    husky: "npm:^8.0.3"
+    i18next: "npm:^23.2.8"
+    i18next-parser: "npm:^9.0.2"
+    identity-obj-proxy: "npm:^3.0.0"
+    jest: "npm:^29.7.0"
+    jest-cli: "npm:^29.7.0"
+    jest-environment-jsdom: "npm:^29.7.0"
+    lint-staged: "npm:^15.2.2"
+    lodash-es: "npm:^4.17.21"
+    openmrs: "npm:^6.0.1-pre.2553"
+    prettier: "npm:^3.3.3"
+    react: "npm:^18.2.0"
+    react-chartjs-2: "npm:^5.2.0"
+    react-dom: "npm:^18.2.0"
+    react-i18next: "npm:^11.18.6"
+    react-router-dom: "npm:^6.14.1"
+    rxjs: "npm:^6.6.7"
+    swc-loader: "npm:^0.2.3"
+    turbo: "npm:^2.2.3"
+    typescript: "npm:^4.9.5"
+    webpack: "npm:^5.88.1"
+    webpack-cli: "npm:^5.1.4"
+    yarn: "npm:^1.22.22"
+  peerDependencies:
+    "@openmrs/esm-framework": "*"
+    dayjs: 1.x
+    react: 18.x
+    react-i18next: 11.x
+    react-router-dom: 6.x
+    rxjs: 6.x
+  languageName: unknown
+  linkType: soft
+
 "@esbuild/aix-ppc64@npm:0.23.1":
   version: 0.23.1
   resolution: "@esbuild/aix-ppc64@npm:0.23.1"
@@ -3481,70 +3545,6 @@ __metadata:
   checksum: 10/4d9d592528933bc4fd00e556afc38d5d2fa7ec972b58f9ae4b95da35b4395d5b06254755df088bb216c361e7c7bf49c3660bee3b5f4a31a6ada19ee3f2dc4a75
   languageName: node
   linkType: hard
-
-"@openmrs/esm-template-app@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@openmrs/esm-template-app@workspace:."
-  dependencies:
-    "@carbon/react": "npm:^1.68.0"
-    "@openmrs/esm-framework": "npm:^6.0.1-pre.2553"
-    "@openmrs/esm-styleguide": "npm:next"
-    "@playwright/test": "npm:^1.42.1"
-    "@swc/cli": "npm:^0.3.12"
-    "@swc/core": "npm:^1.3.68"
-    "@swc/jest": "npm:^0.2.36"
-    "@testing-library/dom": "npm:^10.1.0"
-    "@testing-library/jest-dom": "npm:^6.4.5"
-    "@testing-library/react": "npm:^15.0.6"
-    "@testing-library/user-event": "npm:^14.5.2"
-    "@types/jest": "npm:^29.5.12"
-    "@types/react": "npm:^18.2.14"
-    "@types/react-dom": "npm:^18.2.6"
-    "@types/react-router": "npm:^5.1.20"
-    "@types/react-router-dom": "npm:^5.3.3"
-    "@types/webpack-env": "npm:^1.18.1"
-    "@typescript-eslint/eslint-plugin": "npm:^7.8.0"
-    "@typescript-eslint/parser": "npm:^7.8.0"
-    chart.js: "npm:^4.4.7"
-    css-loader: "npm:^6.8.1"
-    dotenv: "npm:^16.0.3"
-    eslint: "npm:^8.50.0"
-    eslint-config-prettier: "npm:^8.8.0"
-    eslint-plugin-jest-dom: "npm:^5.4.0"
-    eslint-plugin-prettier: "npm:^5.1.3"
-    eslint-plugin-react-hooks: "npm:^4.6.2"
-    husky: "npm:^8.0.3"
-    i18next: "npm:^23.2.8"
-    i18next-parser: "npm:^9.0.2"
-    identity-obj-proxy: "npm:^3.0.0"
-    jest: "npm:^29.7.0"
-    jest-cli: "npm:^29.7.0"
-    jest-environment-jsdom: "npm:^29.7.0"
-    lint-staged: "npm:^15.2.2"
-    lodash-es: "npm:^4.17.21"
-    openmrs: "npm:^6.0.1-pre.2553"
-    prettier: "npm:^3.3.3"
-    react: "npm:^18.2.0"
-    react-chartjs-2: "npm:^5.2.0"
-    react-dom: "npm:^18.2.0"
-    react-i18next: "npm:^11.18.6"
-    react-router-dom: "npm:^6.14.1"
-    rxjs: "npm:^6.6.7"
-    swc-loader: "npm:^0.2.3"
-    turbo: "npm:^2.2.3"
-    typescript: "npm:^4.9.5"
-    webpack: "npm:^5.88.1"
-    webpack-cli: "npm:^5.1.4"
-    yarn: "npm:^1.22.22"
-  peerDependencies:
-    "@openmrs/esm-framework": "*"
-    dayjs: 1.x
-    react: 18.x
-    react-i18next: 11.x
-    react-router-dom: 6.x
-    rxjs: 6.x
-  languageName: unknown
-  linkType: soft
 
 "@openmrs/esm-translations@npm:6.0.1-pre.2553":
   version: 6.0.1-pre.2553

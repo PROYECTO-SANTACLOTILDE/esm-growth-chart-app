@@ -1,5 +1,5 @@
 {
-  "name": "@openmrs/esm-template-app",
+  "name": "@duvet05/esm-template-app",
   "version": "4.0.0",
   "license": "MPL-2.0",
   "description": "An OpenMRS seed application for building microfrontends",
