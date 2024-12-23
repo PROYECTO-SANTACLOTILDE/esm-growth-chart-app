@@ -1,11 +1,6 @@
+
 {
-  "growthChart": {
-    "title": "Chart de Crecimiento",
-    "height": "ALtura (cm)",
-    "addButton": "Agregar Boton",
-    "loading": "Loading chart data..."
-  },
-  "casualGreeting": "hey",
+  "test": "hey",
   "configSystem": "Sistema de configuración",
   "configSystemExplainer": "El saludo que se muestra a continuación es impulsado por el sistema de configuración. Para cambiar las propiedades de configuración, haga clic en el icono de llave inglesa en la barra de navegación para abrir el panel Herramientas del implementador. Luego, escriba <2>plantilla</2> en la entrada <4>Configuración de búsqueda</4>. Esto debería filtrar las propiedades de configuración para mostrar solo aquellas que son relevantes para este módulo. Puede cambiar los valores de estas propiedades y hacer clic en <6>Guardar</6> para ver los cambios reflejados en la interfaz de usuario",
   "connect": "Conectar",

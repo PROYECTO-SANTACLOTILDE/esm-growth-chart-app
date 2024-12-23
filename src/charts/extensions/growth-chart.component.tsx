@@ -13,48 +13,48 @@ const GrowthChart: React.FC = () => {
 
   const data = [
     {
-      group: t('growthChart.height'),
+      group: t('growthChart.height', 'Height'),
       key: '0',
       value: 50,
     },
     {
-      group: t('growthChart.height'),
+      group: t('growthChart.height', 'Height'),
       key: '1',
 
       value: 55,
     },
     {
-      group: t('growthChart.height'),
+      group: t('growthChart.height', 'Height'),
       key: '2',
       value: 60,
     },
     {
-      group: t('growthChart.height'),
+      group: t('growthChart.height', 'Height'),
       key: '3',
       value: 65,
     },
     {
-      group: t('growthChart.height'),
+      group: t('growthChart.height', 'Height'),
       key: '4',
       value: 70,
     },
     {
-      group: t('growthChart.height'),
+      group: t('growthChart.height', 'Height'),
       key: '5',
       value: 75,
     },
     {
-      group: t('growthChart.height'),
+      group: t('growthChart.height', 'Height'),
       key: '6',
       value: 80,
     },
   ];
 
   const options = {
-    title: t('growthChart.title'),
+    title: t('dataFetching', 'Data fetching'),
     axes: {
       left: {
-        title: t('growthChart.axisHeight'),
+        title: t('growthChart.axisHeight', 'Height'),
         mapsTo: 'value',
       },
       bottom: {
@@ -70,7 +70,7 @@ const GrowthChart: React.FC = () => {
             enabled: true,
           },
         },
-        correspondingDatasets: [t('growthChart.height')],
+        correspondingDatasets: [t('growthChart.height', 'Height')],
       },
     ],
     curve: 'curveNatural',
@@ -78,9 +78,10 @@ const GrowthChart: React.FC = () => {
   };
 
   return (
-    <Tile className={styles.white}>
-      <ComboChart data={data} options={options}></ComboChart>
-    </Tile>
+    //<Tile className={styles.white}>
+    <h5>{t('translations:test', 'Data fetching')}</h5>
+    //<ComboChart data={data} options={options}></ComboChart>
+    //</Tile>
   );
 };
 
