@@ -40,6 +40,7 @@
     "url": "https://github.com/openmrs/openmrs-esm-template-app/issues"
   },
   "dependencies": {
+    "@carbon/charts-react": "^1.22.8",
     "@carbon/react": "^1.68.0",
     "chart.js": "^4.4.7",
     "lodash-es": "^4.17.21",
