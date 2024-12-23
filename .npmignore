@@ -1,2 +1,22 @@
+# Excluir dependencias locales
 node_modules/
+.yarn/
+.yarnrc.yml
 
+# Excluir archivos de configuración y desarrollo
+*.log
+*.map
+*.tgz
+*.lock
+*.config.js
+*.config.ts
+.vscode/
+test/
+e2e/
+coverage/
+docs/
+tmp/
+temp/
+
+# Otros archivos innecesarios
+.DS_Store
