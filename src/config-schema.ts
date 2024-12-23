@@ -21,23 +21,14 @@ import { Type, validator } from '@openmrs/esm-framework';
  *   https://openmrs.github.io/openmrs-esm-core/#/main/config?id=schema-reference
  */
 export const configSchema = {
-  casualGreeting: {
-    _type: Type.Boolean,
-    _default: false,
-    _description: 'Whether to use a casual greeting (or a formal one).',
-  },
-  whoToGreet: {
-    _type: Type.Array,
-    _default: ['World'],
-    _description: 'Who should be greeted. Names will be separated by a comma and space.',
-    _elements: {
-      _type: Type.String,
-    },
-    _validators: [validator((v) => v.length > 0, 'At least one person must be greeted.')],
+  growthChartTimeUnit: {
+    _type: Type.String,
+    _default: 'months',
+    _description: 'Defines the time unit for the growth chart: months or years.',
+    _validators: [validator((v) => v === 'months' || v === 'years', 'The value must be either "months" or "years".')],
   },
 };
 
 export type Config = {
-  casualGreeting: boolean;
-  whoToGreet: Array<string>;
+  growthChartTimeUnit: string;
 };

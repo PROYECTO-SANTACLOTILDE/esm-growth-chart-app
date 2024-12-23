@@ -1,63 +1,45 @@
 import React from 'react';
 import { ComboChart, ScaleTypes } from '@carbon/charts-react';
 import '@carbon/charts/styles.css';
-import { Tile } from '@carbon/react';
+import { Tile, Header } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
+import styles from './growthChart.module.scss';
 import { useConfig } from '@openmrs/esm-framework';
 import { type Config } from '../../config-schema';
-import styles from './growthChart.module.scss';
 
 const GrowthChart: React.FC = () => {
   const { t } = useTranslation();
   const config: Config = useConfig();
 
-  const data = [
-    {
-      group: t('growthChart.height', 'Height'),
-      key: '0',
-      value: 50,
-    },
-    {
-      group: t('growthChart.height', 'Height'),
-      key: '1',
+  const growthChartTimeUnit = config.growthChartTimeUnit.includes('years');
 
-      value: 55,
-    },
-    {
-      group: t('growthChart.height', 'Height'),
-      key: '2',
-      value: 60,
-    },
-    {
-      group: t('growthChart.height', 'Height'),
-      key: '3',
-      value: 65,
-    },
-    {
-      group: t('growthChart.height', 'Height'),
-      key: '4',
-      value: 70,
-    },
-    {
-      group: t('growthChart.height', 'Height'),
-      key: '5',
-      value: 75,
-    },
-    {
-      group: t('growthChart.height', 'Height'),
-      key: '6',
-      value: 80,
-    },
+  const data = [
+    { group: '50th Percentile', key: '0', value: 50 },
+    { group: '50th Percentile', key: '1', value: 55 },
+    { group: '50th Percentile', key: '2', value: 60 },
+    { group: '50th Percentile', key: '3', value: 65 },
+    { group: '50th Percentile', key: '4', value: 70 },
+    { group: '50th Percentile', key: '5', value: 75 },
+    { group: '50th Percentile', key: '6', value: 80 },
+    { group: '3rd Percentile', key: '0', value: 45 },
+    { group: '3rd Percentile', key: '1', value: 48 },
+    { group: '3rd Percentile', key: '2', value: 52 },
+    { group: '97th Percentile', key: '0', value: 55 },
+    { group: '97th Percentile', key: '1', value: 60 },
+    { group: '97th Percentile', key: '2', value: 65 },
   ];
 
   const options = {
-    title: t('dataFetching', 'Data fetching'),
+    title: t('growthChart.title', 'Child Growth Chart'),
     axes: {
       left: {
-        title: t('growthChart.axisHeight', 'Height'),
+        title: t('growthChart.axisHeight', 'Height (cm)'),
         mapsTo: 'value',
       },
       bottom: {
+        title: growthChartTimeUnit
+          ? t('growthChart.axisMonths', 'Age (Months)')
+          : t('growthChart.axisYears', 'Age (Years)'),
         scaleType: ScaleTypes.LABELS,
         mapsTo: 'key',
       },
@@ -65,12 +47,14 @@ const GrowthChart: React.FC = () => {
     comboChartTypes: [
       {
         type: 'line',
-        options: {
-          points: {
-            enabled: true,
-          },
-        },
+        options: { points: { enabled: true } },
         correspondingDatasets: [t('growthChart.height', 'Height')],
+      },
+      { type: 'line', options: { points: { enabled: true } }, correspondingDatasets: ['50th Percentile'] },
+      {
+        type: 'line',
+        options: { points: { enabled: true } },
+        correspondingDatasets: ['3rd Percentile', '97th Percentile'],
       },
     ],
     curve: 'curveNatural',
@@ -78,9 +62,12 @@ const GrowthChart: React.FC = () => {
   };
 
   return (
-    <Tile className={styles.white}>
-      <ComboChart data={data} options={options}></ComboChart>
-    </Tile>
+    <div className={styles.growthChartContainer}>
+      <Header>{t('growthChart.header', 'Child Growth Analysis')}</Header>
+      <Tile className={styles.chartTile}>
+        <ComboChart data={data} options={options} />
+      </Tile>
+    </div>
   );
 };
 
