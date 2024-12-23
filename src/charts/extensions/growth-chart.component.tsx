@@ -78,10 +78,9 @@ const GrowthChart: React.FC = () => {
   };
 
   return (
-    //<Tile className={styles.white}>
-    <h5>{t('translations:test', 'Data fetching')}</h5>
-    //<ComboChart data={data} options={options}></ComboChart>
-    //</Tile>
+    <Tile className={styles.white}>
+      <ComboChart data={data} options={options}></ComboChart>
+    </Tile>
   );
 };
 
