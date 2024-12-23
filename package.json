@@ -1,6 +1,6 @@
 {
   "name": "@duvet05/esm-template-app",
-  "version": "4.0.0",
+  "version": "1.0.0",
   "license": "MPL-2.0",
   "description": "An OpenMRS seed application for building microfrontends",
   "browser": "dist/openmrs-esm-template-app.js",
@@ -55,7 +55,7 @@
     "rxjs": "6.x"
   },
   "devDependencies": {
-    "@openmrs/esm-framework": "^6.0.1-pre.2553",
+    "@openmrs/esm-framework": "^6.0.3-pre.2596",
     "@openmrs/esm-styleguide": "next",
     "@playwright/test": "^1.42.1",
     "@swc/cli": "^0.3.12",
@@ -88,7 +88,7 @@
     "jest-cli": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "lint-staged": "^15.2.2",
-    "openmrs": "^6.0.1-pre.2553",
+    "openmrs": "^6.0.3-pre.2596",
     "prettier": "^3.3.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
