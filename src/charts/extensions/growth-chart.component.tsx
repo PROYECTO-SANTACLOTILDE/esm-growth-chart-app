@@ -21,7 +21,7 @@ const GrowthChart: React.FC = () => {
 
   const transformedData = observations.map((obs) => ({
     group: obs.type === 'Height (cm)' ? t('growthChart.height', 'Height') : t('growthChart.weight', 'Weight'),
-    key: new Date(obs.date).getFullYear().toString(),
+    key: new Date(obs.date).getDate().toString(),
     value: obs.value,
   }));
 

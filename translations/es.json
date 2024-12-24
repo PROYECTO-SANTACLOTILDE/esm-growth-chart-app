@@ -1,11 +1,16 @@
 {
+  "error": {
+    "loadingData": "Error loading growth chart data."
+  },
   "explainer": "Los siguientes ejemplos demuestran algunas características clave del marco O3",
   "growthChart": {
     "axisHeight": "Height",
     "axisMonths": "Age (Months)",
     "axisYears": "Age (Years)",
     "height": "Height",
-    "title": "Child Growth Chart"
+    "title": "Child Growth Chart",
+    "weight": "Weight"
   },
+  "loading": "Loading...",
   "welcomeText": "Bienvenido a la aplicación Plantilla O3"
 }
