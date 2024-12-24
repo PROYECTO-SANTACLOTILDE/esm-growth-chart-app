@@ -6,11 +6,16 @@ import { useTranslation } from 'react-i18next';
 import styles from './growthChart.module.scss';
 import { useConfig } from '@openmrs/esm-framework';
 import { type Config } from '../../config-schema';
-import Obs from '@openmrs/react-components';
+import { usePatientObservations } from '../growth-chart.resource';
 
 const GrowthChart: React.FC = () => {
   const { t } = useTranslation();
   const config: Config = useConfig();
+
+  const { observations, isLoading, error } = usePatientObservations('a6acfd24-3668-4cbe-9b25-36e40ac9f571', [
+    '5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', // Height
+    '5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', // Weight
+  ]);
 
   const growthChartTimeUnit = config.growthChartTimeUnit.includes('years');
 
