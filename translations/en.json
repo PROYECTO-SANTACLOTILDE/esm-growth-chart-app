@@ -1,9 +1,11 @@
 {
-  "dataFetching": "Data fetching",
   "explainer": "The following examples demonstrate some key features of the O3 framework",
   "growthChart": {
     "axisHeight": "Height",
-    "height": "Height"
+    "axisMonths": "Age (Months)",
+    "axisYears": "Age (Years)",
+    "height": "Height",
+    "title": "Child Growth Chart"
   },
   "welcomeText": "Welcome to the O3 Template app"
 }

@@ -1,9 +1,11 @@
 {
-  "dataFetching": "Obtención de datos",
   "explainer": "Los siguientes ejemplos demuestran algunas características clave del marco O3",
   "growthChart": {
     "axisHeight": "Height",
-    "height": "Height"
+    "axisMonths": "Age (Months)",
+    "axisYears": "Age (Years)",
+    "height": "Height",
+    "title": "Child Growth Chart"
   },
   "welcomeText": "Bienvenido a la aplicación Plantilla O3"
 }

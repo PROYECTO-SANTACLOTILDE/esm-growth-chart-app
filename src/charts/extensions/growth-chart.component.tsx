@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import styles from './growthChart.module.scss';
 import { useConfig } from '@openmrs/esm-framework';
 import { type Config } from '../../config-schema';
+import Obs from '@openmrs/react-components';
 
 const GrowthChart: React.FC = () => {
   const { t } = useTranslation();
@@ -63,7 +64,6 @@ const GrowthChart: React.FC = () => {
 
   return (
     <div className={styles.growthChartContainer}>
-      <Header>{t('growthChart.header', 'Child Growth Analysis')}</Header>
       <Tile className={styles.chartTile}>
         <ComboChart data={data} options={options} />
       </Tile>

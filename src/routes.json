@@ -15,10 +15,6 @@
     {
       "component": "root",
       "route": "test"
-    },
-    {
-      "component": "prueba",
-      "route": "prueba"
     }
   ]
 }
