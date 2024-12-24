@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import useSWR from 'swr';
-import { openmrsFetch, restBaseUrl } from '@openmrs/esm-framework';
+import { fhirBaseUrl, openmrsFetch, restBaseUrl } from '@openmrs/esm-framework';
 
 type Observation = {
   id: string;
@@ -27,7 +27,7 @@ type ObservationResponse = {
 export function usePatientObservations(patientUuid: string, codes: string[]) {
   const fetchUrl = useMemo(() => {
     const codeParams = codes.join(',');
-    return `${restBaseUrl}/Observation?subject:Patient=${patientUuid}&code=${codeParams}&_summary=data&_sort=-date&_count=100`;
+    return `${fhirBaseUrl}/Observation?subject:Patient=${patientUuid}&code=${codeParams}&_summary=data&_sort=-date&_count=100`;
   }, [patientUuid, codes]);
 
   const { data, error, isLoading } = useSWR<ObservationResponse>(patientUuid ? fetchUrl : null, async (url) => {

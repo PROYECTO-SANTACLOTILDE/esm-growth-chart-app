@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComboChart, ScaleTypes } from '@carbon/charts-react';
 import '@carbon/charts/styles.css';
-import { Tile, Header } from '@carbon/react';
+import { Tile, Header, InlineLoading } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
 import styles from './growthChart.module.scss';
 import { useConfig } from '@openmrs/esm-framework';
@@ -19,21 +19,11 @@ const GrowthChart: React.FC = () => {
 
   const growthChartTimeUnit = config.growthChartTimeUnit.includes('years');
 
-  const data = [
-    { group: '50th Percentile', key: '0', value: 50 },
-    { group: '50th Percentile', key: '1', value: 55 },
-    { group: '50th Percentile', key: '2', value: 60 },
-    { group: '50th Percentile', key: '3', value: 65 },
-    { group: '50th Percentile', key: '4', value: 70 },
-    { group: '50th Percentile', key: '5', value: 75 },
-    { group: '50th Percentile', key: '6', value: 80 },
-    { group: '3rd Percentile', key: '0', value: 45 },
-    { group: '3rd Percentile', key: '1', value: 48 },
-    { group: '3rd Percentile', key: '2', value: 52 },
-    { group: '97th Percentile', key: '0', value: 55 },
-    { group: '97th Percentile', key: '1', value: 60 },
-    { group: '97th Percentile', key: '2', value: 65 },
-  ];
+  const transformedData = observations.map((obs) => ({
+    group: obs.type === 'Height (cm)' ? t('growthChart.height', 'Height') : t('growthChart.weight', 'Weight'),
+    key: new Date(obs.date).getFullYear().toString(),
+    value: obs.value,
+  }));
 
   const options = {
     title: t('growthChart.title', 'Child Growth Chart'),
@@ -56,21 +46,31 @@ const GrowthChart: React.FC = () => {
         options: { points: { enabled: true } },
         correspondingDatasets: [t('growthChart.height', 'Height')],
       },
-      { type: 'line', options: { points: { enabled: true } }, correspondingDatasets: ['50th Percentile'] },
-      {
-        type: 'line',
-        options: { points: { enabled: true } },
-        correspondingDatasets: ['3rd Percentile', '97th Percentile'],
-      },
     ],
     curve: 'curveNatural',
     height: '400px',
   };
 
+  if (isLoading) {
+    return (
+      <div className={styles.loaderContainer}>
+        <InlineLoading description={t('loading', 'Loading...')} />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={styles.errorContainer}>
+        <p>{t('error.loadingData', 'Error loading growth chart data.')}</p>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.growthChartContainer}>
       <Tile className={styles.chartTile}>
-        <ComboChart data={data} options={options} />
+        <ComboChart data={transformedData} options={options} />
       </Tile>
     </div>
   );
