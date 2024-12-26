@@ -9,6 +9,11 @@
       "name": "Growth Chart",
       "component": "growthChart",
       "slot": "Charts"
+    },
+    {
+      "name": "Growth Chart Weight",
+      "component": "growthChartV2",
+      "slot": "Charts"
     }
   ],
   "pages": [
