@@ -8,7 +8,7 @@ import { useConfig } from '@openmrs/esm-framework';
 import { type Config } from '../../config-schema';
 import { usePatientObservations } from '../growth-chart.resource';
 
-const GrowthChart: React.FC = () => {
+const GrowthChartWeight: React.FC = () => {
   const { t } = useTranslation();
   const config: Config = useConfig();
 
@@ -76,4 +76,4 @@ const GrowthChart: React.FC = () => {
   );
 };
 
-export default GrowthChart;
+export default GrowthChartWeight;
