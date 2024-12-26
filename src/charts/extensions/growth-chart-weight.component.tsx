@@ -13,10 +13,9 @@ const GrowthChartWeight: React.FC = () => {
   const [error, setError] = useState<null | string>(null);
 
   useEffect(() => {
-    // Load CSV data from `/utils`
     const loadCSVData = async () => {
       try {
-        const csvData = await csv('/utils/wfa-b-z.csv'); // Replace with actual path
+        const csvData = await csv('/src/utils/wfa-b-z.csv'); // Replace with actual path
         const formattedData = csvData.map((row: any) => ({
           group: t('growthChart.weight', 'Weight'),
           key: row.Month,
