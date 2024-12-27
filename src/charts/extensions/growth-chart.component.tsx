@@ -25,6 +25,8 @@ const GrowthChart: React.FC = () => {
     value: obs.value,
   }));
 
+  console.log(transformedData);
+
   const options = {
     title: t('growthChart.title', 'Child Growth Chart'),
     axes: {

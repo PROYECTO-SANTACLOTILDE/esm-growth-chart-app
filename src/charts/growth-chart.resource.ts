@@ -23,7 +23,6 @@ type ObservationResponse = {
     resource: Observation;
   }>;
 };
-
 export function usePatientObservations(patientUuid: string, codes: string[]) {
   const fetchUrl = useMemo(() => {
     const codeParams = codes.join(',');
