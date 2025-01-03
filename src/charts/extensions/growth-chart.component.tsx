@@ -13,8 +13,8 @@ const GrowthChart: React.FC = () => {
   const config: Config = useConfig();
 
   const { observations, isLoading, error } = usePatientObservations('a6acfd24-3668-4cbe-9b25-36e40ac9f571', [
-    '5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', // Height
-    '5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', // Weight
+    '5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+    '5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
   ]);
 
   const growthChartTimeUnit = config.growthChartTimeUnit.includes('years');
@@ -24,8 +24,6 @@ const GrowthChart: React.FC = () => {
     key: new Date(obs.date).getDate().toString(),
     value: obs.value,
   }));
-
-  console.log(transformedData);
 
   const options = {
     title: t('growthChart.title', 'Child Growth Chart'),
