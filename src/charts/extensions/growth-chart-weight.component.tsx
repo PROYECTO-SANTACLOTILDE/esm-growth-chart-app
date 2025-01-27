@@ -1,41 +1,46 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ComboChart, ScaleTypes } from '@carbon/charts-react';
 import '@carbon/charts/styles.css';
 import { Tile, InlineLoading } from '@carbon/react';
 import { useTranslation } from 'react-i18next';
 import styles from './growthChart.module.scss';
-import { useConfig } from '@openmrs/esm-framework';
-import { type Config } from '../../config-schema';
-import { usePatientObservations } from '../growth-chart.resource';
+import { csv } from 'd3';
 
 const GrowthChartWeight: React.FC = () => {
   const { t } = useTranslation();
-  const config: Config = useConfig();
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<null | string>(null);
 
-  const { observations, isLoading, error } = usePatientObservations('a6acfd24-3668-4cbe-9b25-36e40ac9f571', [
-    '5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', // Height
-    '5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', // Weight
-  ]);
+  useEffect(() => {
+    const loadCSVData = async () => {
+      try {
+        const csvData = await csv('/src/utils/wfa-b-z.csv'); // Replace with actual path
+        const formattedData = csvData.map((row: any) => ({
+          group: t('growthChart.weight', 'Weight'),
+          key: row.Month,
+          value: row.SD1, // Adjust based on the required column
+        }));
+        setData(formattedData);
+        setIsLoading(false);
+      } catch (err) {
+        setError(t('error.loadingData', 'Error loading growth chart data.'));
+        setIsLoading(false);
+      }
+    };
 
-  const growthChartTimeUnit = config.growthChartTimeUnit.includes('years');
-
-  const transformedData = observations.map((obs) => ({
-    group: obs.type === 'Height (cm)' ? t('growthChart.height', 'Height') : t('growthChart.weight', 'Weight'),
-    key: new Date(obs.date).getDate().toString(),
-    value: obs.value,
-  }));
+    loadCSVData();
+  }, [t]);
 
   const options = {
     title: t('growthChart.title', 'Child Growth Chart'),
     axes: {
       left: {
-        title: t('growthChart.axisHeight', 'Height (cm)'),
+        title: t('growthChart.axisWeight', 'Weight (kg)'),
         mapsTo: 'value',
       },
       bottom: {
-        title: growthChartTimeUnit
-          ? t('growthChart.axisMonths', 'Age (Months)')
-          : t('growthChart.axisYears', 'Age (Years)'),
+        title: t('growthChart.axisMonths', 'Age (Months)'),
         scaleType: ScaleTypes.LABELS,
         mapsTo: 'key',
       },
@@ -44,7 +49,7 @@ const GrowthChartWeight: React.FC = () => {
       {
         type: 'line',
         options: { points: { enabled: true } },
-        correspondingDatasets: [t('growthChart.height', 'Height')],
+        correspondingDatasets: [t('growthChart.weight', 'Weight')],
       },
     ],
     curve: 'curveNatural',
@@ -62,7 +67,7 @@ const GrowthChartWeight: React.FC = () => {
   if (error) {
     return (
       <div className={styles.errorContainer}>
-        <p>{t('error.loadingData', 'Error loading growth chart data.')}</p>
+        <p>{error}</p>
       </div>
     );
   }
@@ -70,7 +75,7 @@ const GrowthChartWeight: React.FC = () => {
   return (
     <div className={styles.growthChartContainer}>
       <Tile className={styles.chartTile}>
-        <ComboChart data={transformedData} options={options} />
+        <ComboChart data={data} options={options} />
       </Tile>
     </div>
   );

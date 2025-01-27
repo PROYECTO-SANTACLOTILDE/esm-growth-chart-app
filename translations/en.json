@@ -6,6 +6,7 @@
   "growthChart": {
     "axisHeight": "Height",
     "axisMonths": "Age (Months)",
+    "axisWeight": "Weight (kg)",
     "axisYears": "Age (Years)",
     "height": "Height",
     "title": "Child Growth Chart",

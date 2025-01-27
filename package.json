@@ -42,10 +42,19 @@
   "dependencies": {
     "@carbon/charts-react": "^1.22.8",
     "@carbon/react": "^1.68.0",
+    "@openmrs/esm-error-handling": "^6.0.4",
+    "@openmrs/esm-extensions": "^6.0.4",
+    "@openmrs/esm-navigation": "^6.0.4",
+    "@openmrs/esm-react-utils": "^6.0.4",
+    "@openmrs/esm-state": "^6.0.4",
+    "@openmrs/esm-translations": "^6.0.4",
     "@openmrs/react-components": "^1.5.2",
     "chart.js": "^4.4.7",
     "lodash-es": "^4.17.21",
     "react-chartjs-2": "^5.2.0",
+    "sass": "^1.83.4",
+    "single-spa": "^6.0.3",
+    "swr": "^2.3.0",
     "yarn": "^1.22.22"
   },
   "peerDependencies": {
