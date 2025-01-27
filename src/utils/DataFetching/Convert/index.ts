@@ -1,0 +1,1 @@
+export { convertDataElementToValues } from './convertDataElementToValues';

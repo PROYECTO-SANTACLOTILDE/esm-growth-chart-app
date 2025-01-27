@@ -50,6 +50,8 @@
     "@openmrs/esm-translations": "^6.0.4",
     "@openmrs/react-components": "^1.5.2",
     "chart.js": "^4.4.7",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.2",
     "lodash-es": "^4.17.21",
     "react-chartjs-2": "^5.2.0",
     "sass": "^1.83.4",

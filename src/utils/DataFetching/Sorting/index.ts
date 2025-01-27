@@ -1,0 +1,1 @@
+export { useChartDataForGender } from './useChartDataForGender';
