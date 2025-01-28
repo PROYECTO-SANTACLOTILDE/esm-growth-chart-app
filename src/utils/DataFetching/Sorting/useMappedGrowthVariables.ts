@@ -1,4 +1,4 @@
-import { type Event } from '../Hooks/useEvents';
+import { type Event } from '../Hooks/useVitals';
 
 interface UseMappedGrowthVariablesProps {
   events: Event[];

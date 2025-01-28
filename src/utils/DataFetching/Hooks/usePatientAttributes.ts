@@ -29,6 +29,7 @@ export const usePatientAttributes = (patientUuid: string) => {
  *  derived from patient-attributes using configured attributeTypes
  * @param patientUuid Unique patient identifier {@type string}
  * @returns Object containing `contactAttribute` {@link Attribute} loading status
+ * Quiero uuid, birthdate, gender y nombres de los pacientes
  */
 export const usePatientContactAttributes = (patientUuid: string) => {
   const { contactAttributeTypes } = useConfig();
