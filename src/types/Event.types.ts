@@ -5,7 +5,7 @@ export interface Patient {
   display: string;
   identifiers: Array<any>;
   person: Person;
-};
+}
 
 export interface Person {
   age: number;
@@ -15,7 +15,7 @@ export interface Person {
   display: string;
   preferredAddress: OpenmrsResource;
   uuid: string;
-};
+}
 
 export interface Attribute {
   attributeType: OpenmrsResource;
@@ -28,6 +28,7 @@ export type ServerDataValues = {
   dataElement: string;
   value: any;
 };
+
 export type ClientEvent = {
   program: string;
   programStage: string;
