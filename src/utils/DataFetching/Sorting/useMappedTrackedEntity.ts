@@ -1,5 +1,5 @@
 import { GenderCodes } from '../../../types/chartDataTypes';
-import { type ChartConfig } from '../Hooks/useChartConfig';
+import { type ChartConfig } from '../../../config-schema';
 import { type TrackedEntity } from '../Hooks/useTeiById';
 
 interface Attribute {

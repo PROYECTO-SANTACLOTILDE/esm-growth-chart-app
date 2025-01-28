@@ -1,34 +1,102 @@
-import { Type, validator } from '@openmrs/esm-framework';
+import { Type } from '@openmrs/esm-framework';
 
 /**
- * This is the config schema. It expects a configuration object which
- * looks like this:
- *
- * ```json
- * { "casualGreeting": true, "whoToGreet": ["Mom"] }
- * ```
- *
- * In OpenMRS Microfrontends, all config parameters are optional. Thus,
- * all elements must have a reasonable default. A good default is one
- * that works well with the reference application.
- *
- * To understand the schema below, please read the configuration system
- * documentation:
- *   https://openmrs.github.io/openmrs-esm-core/#/main/config
- * Note especially the section "How do I make my module configurable?"
- *   https://openmrs.github.io/openmrs-esm-core/#/main/config?id=im-developing-an-esm-module-how-do-i-make-it-configurable
- * and the Schema Reference
- *   https://openmrs.github.io/openmrs-esm-core/#/main/config?id=schema-reference
+ * Schema para las configuraciones de gráficos de crecimiento.
  */
 export const configSchema = {
-  growthChartTimeUnit: {
-    _type: Type.String,
-    _default: 'months',
-    _description: 'Defines the time unit for the growth chart: months or years.',
-    _validators: [validator((v) => v === 'months' || v === 'years', 'The value must be either "months" or "years".')],
+  metadata: {
+    attributes: {
+      dateOfBirth: {
+        _type: Type.UUID,
+        _description: 'UUID del concepto detrás de fecha de nacimiento',
+        _default: 'uuid-for-date-of-birth', // Reemplaza con el UUID real
+      },
+      gender: {
+        _type: Type.UUID,
+        _description: 'UUID del concepto detrás de género',
+        _default: 'uuid-for-gender', // Reemplaza con el UUID real
+      },
+      femaleOptionCode: {
+        _type: Type.UUID,
+        _description: 'UUID para Mujer',
+        _default: 'uuid-for-female', // Reemplaza con el UUID real
+      },
+      maleOptionCode: {
+        _type: Type.UUID,
+        _description: 'UUID para Hombre',
+        _default: 'uuid-for-male', // Reemplaza con el UUID real
+      },
+    },
+    dataElements: {
+      headCircumference: {
+        _type: Type.UUID,
+        _description: 'UUID para circunferencia de la cabeza',
+        _default: 'uuid-for-head-circumference', // Reemplaza con el UUID real
+      },
+      height: {
+        _type: Type.UUID,
+        _description: 'UUID para altura',
+        _default: 'uuid-for-height', // Reemplaza con el UUID real
+      },
+      weight: {
+        _type: Type.UUID,
+        _description: 'UUID para peso',
+        _default: 'uuid-for-weight', // Reemplaza con el UUID real
+      },
+    },
+    program: {
+      programStageId: {
+        _type: Type.UUID,
+        _description: 'UUID del programa',
+        _default: 'uuid-for-program-stage', // Reemplaza con el UUID real
+      },
+    },
+  },
+  settings: {
+    customReferences: {
+      _type: Type.Boolean,
+      _description: 'Indica si se usan referencias personalizadas',
+      _default: true,
+    },
+    usePercentiles: {
+      _type: Type.Boolean,
+      _description: 'Indica si se usan percentiles',
+      _default: true,
+    },
+    weightInGrams: {
+      _type: Type.Boolean,
+      _description: 'Indica si el peso se mide en gramos',
+      _default: false,
+    },
+    defaultIndicator: {
+      _type: Type.String,
+      _description: 'Indicador por defecto',
+      _default: 'wfa', // "Weight for age"
+    },
   },
 };
 
-export type Config = {
-  growthChartTimeUnit: string;
+export type ChartConfig = {
+  metadata: {
+    attributes: {
+      dateOfBirth: string;
+      gender: string;
+      femaleOptionCode: string;
+      maleOptionCode: string;
+    };
+    dataElements: {
+      headCircumference: string;
+      height: string;
+      weight: string;
+    };
+    program: {
+      programStageId: string;
+    };
+  };
+  settings: {
+    customReferences: boolean;
+    usePercentiles: boolean;
+    weightInGrams: boolean;
+    defaultIndicator: string;
+  };
 };
