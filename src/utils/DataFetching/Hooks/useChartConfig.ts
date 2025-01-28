@@ -28,7 +28,7 @@ export type ChartConfig = {
 
 // Función fetcher para SWR que usa la API de OpenMRS
 const fetchChartConfig = async (): Promise<ChartConfig> => {
-    const response = await openmrsFetch('/ws/rest/v1/datastore/capture-growth-chart/config'); // Ruta API
+    const response = await openmrsFetch('/ws/rest/v1/systemsetting/capture-growth-chart.config'); // Ruta API
     if (!response.ok) {
         throw new Error('Failed to fetch chart configuration');
     }
