@@ -1,65 +1,43 @@
-import useSWR from 'swr';
-import { openmrsFetch } from '@openmrs/esm-framework';
-import { RequestedEntities, handleAPIResponse } from './handleAPIResponse';
+import useSWRImmutable from 'swr/immutable';
+import { openmrsFetch, restBaseUrl } from '@openmrs/esm-api';
+import { useConfig } from '@openmrs/esm-react-utils';
+import { type Patient } from '../../../types/Event.types';
 
-type UseEventByIdProps = {
-  teiId: string | undefined;
-};
+const customRepresentation =
+  'custom:(uuid,display,identifiers:(identifier,uuid,preferred,location:(uuid,name),identifierType:(uuid,name,format,formatDescription,validator)),person:(uuid,display,gender,birthdate,dead,age,deathDate,birthdateEstimated,causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,longitude,stateProvince,latitude,country,postalCode,countyDistrict,address3,address4,address5,address6,address7)))';
 
-type Attribute = {
-  [key: string]: string;
-};
-
-export type TrackedEntity = {
-  trackedEntity: string;
-  trackedEntityType: string;
-  createdAt: string;
-  createdAtClient: string;
-  updatedAt: string;
-  orgUnit: string;
-  inactive: boolean;
-  deleted: boolean;
-  potentialDuplicate: boolean;
-  attributes: Attribute[];
-};
-
-type UseEventByIdReturn = {
-  trackedEntity: TrackedEntity | undefined;
-  isLoading: boolean;
-  isError: boolean;
-};
-
-export const useTeiById = ({ teiId }: UseEventByIdProps): UseEventByIdReturn => {
-  // Validación de teiId antes de realizar la solicitud
-  if (!teiId) {
-    throw new Error('teiId es obligatorio para realizar la solicitud.');
-  }
-
-  // Fetcher para SWR usando openmrsFetch
-  const fetchTeiById = async () => {
-    const response = await openmrsFetch(`/ws/rest/v1/tracker/trackedEntities/${teiId}`, {
-      method: 'GET',
-    });
-
-    if (!response || !response.data) {
-      throw new Error('No se pudo recuperar la entidad rastreada.');
-    }
-
-    return response.data;
-  };
-
-  // SWR hook
-  const { data, error, isValidating } = useSWR(['trackedEntityById', teiId], fetchTeiById, {
-    revalidateOnFocus: true,
-    dedupingInterval: 5000, // 5 segundos
-  });
-
-  // Procesar la respuesta usando handleAPIResponse
-  const apiResponse: TrackedEntity = handleAPIResponse(RequestedEntities.trackedEntity, data);
+/**
+ *  React hook that takes patientUuid and return Patient Attributes {@link Attribute}
+ * @param patientUuid Unique Patient identifier
+ * @returns Object containing `patient-attributes`, `isLoading` loading status, `error`
+ */
+export const usePatientAttributes = (patientUuid: string) => {
+  const { data, error, isLoading } = useSWRImmutable<{ data: Patient }>(
+    `${restBaseUrl}/patient/${patientUuid}?v=${customRepresentation}`,
+    openmrsFetch,
+  );
 
   return {
-    trackedEntity: apiResponse,
-    isLoading: !data && !error && isValidating,
-    isError: !!error,
+    isLoading,
+    attributes: data?.data.person.attributes ?? [],
+    error: error,
+  };
+};
+
+/**
+ *  React hook that takes patientUuid {@link string} and return contact details
+ *  derived from patient-attributes using configured attributeTypes
+ * @param patientUuid Unique patient identifier {@type string}
+ * @returns Object containing `contactAttribute` {@link Attribute} loading status
+ */
+export const usePatientContactAttributes = (patientUuid: string) => {
+  const { contactAttributeTypes } = useConfig();
+  const { attributes, isLoading } = usePatientAttributes(patientUuid);
+  const contactAttributes = attributes.filter(
+    ({ attributeType }) => contactAttributeTypes?.some((uuid) => attributeType.uuid === uuid),
+  );
+  return {
+    contactAttributes: contactAttributes ?? [],
+    isLoading,
   };
 };

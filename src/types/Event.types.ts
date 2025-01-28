@@ -1,3 +1,29 @@
+import { type OpenmrsResource } from '@openmrs/esm-api';
+
+export interface Patient {
+  uuid: string;
+  display: string;
+  identifiers: Array<any>;
+  person: Person;
+};
+
+export interface Person {
+  age: number;
+  attributes: Array<Attribute>;
+  birthDate: string;
+  gender: string;
+  display: string;
+  preferredAddress: OpenmrsResource;
+  uuid: string;
+};
+
+export interface Attribute {
+  attributeType: OpenmrsResource;
+  display: string;
+  uuid: string;
+  value: string | number;
+}
+
 export type ServerDataValues = {
   dataElement: string;
   value: any;
