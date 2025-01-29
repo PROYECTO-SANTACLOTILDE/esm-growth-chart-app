@@ -50,6 +50,7 @@
     "@openmrs/esm-react-utils": "^6.0.4",
     "@openmrs/esm-state": "^6.0.4",
     "@openmrs/esm-translations": "^6.0.4",
+    "@openmrs/esm-utils": "^6.0.4",
     "@openmrs/react-components": "^1.5.2",
     "chart.js": "^4.4.7",
     "html2canvas": "^1.4.1",

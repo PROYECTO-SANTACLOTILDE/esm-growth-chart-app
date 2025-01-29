@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './root.scss';
-import { usePatientAgeAndGender } from './utils/DataFetching/Hooks';
+import { usePatientBirthdateAndGender } from './utils/DataFetching/Hooks';
 import { useChartConfig } from './utils/DataFetching/Hooks';
+import { age } from '@openmrs/esm-framework';
 
 const Root: React.FC = () => {
   const { t } = useTranslation();
   const [patientUuid, setPatientUuid] = useState('');
   const [submittedUuid, setSubmittedUuid] = useState('');
-  const { isLoading, gender, birthdate, birthdateEstimated, error } = usePatientAgeAndGender(submittedUuid);
+  const { isLoading, gender, birthdate, birthdateEstimated, error } = usePatientBirthdateAndGender(submittedUuid);
   const { chartConfig, isLoading: isChartLoading, isError: isChartError } = useChartConfig();
 
   return (
