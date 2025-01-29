@@ -8,7 +8,8 @@ const Root: React.FC = () => {
   const { t } = useTranslation();
   const [patientUuid, setPatientUuid] = useState('');
   const [submittedUuid, setSubmittedUuid] = useState('');
-  const { isLoading, attributes, error } = usePatientAgeAndGender(submittedUuid);
+  const { isLoading, gender, birthdate, birthdateEstimated, error } = usePatientAgeAndGender(submittedUuid);
+  const { chartConfig, isLoading: isChartLoading, isError: isChartError } = useChartConfig();
 
   return (
     <div className={styles.container}>
@@ -31,12 +32,24 @@ const Root: React.FC = () => {
           <pre>
             {JSON.stringify(
               {
-                attributes,
+                gender,
+                birthdate,
+                birthdateEstimated,
               },
               null,
               2,
             )}
           </pre>
+        )}
+      </div>
+      <div>
+        <h4>Chart Configuration</h4>
+        {isChartLoading ? (
+          <p>Loading chart configuration...</p>
+        ) : isChartError ? (
+          <p>Error loading chart configuration</p>
+        ) : (
+          <pre>{JSON.stringify(chartConfig, null, 2)}</pre>
         )}
       </div>
     </div>
