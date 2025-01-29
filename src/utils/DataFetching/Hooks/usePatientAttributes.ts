@@ -1,7 +1,30 @@
 import useSWRImmutable from 'swr/immutable';
-import { openmrsFetch, restBaseUrl } from '@openmrs/esm-api';
-import { useConfig } from '@openmrs/esm-react-utils';
-import { type Patient } from '../../../types/Event.types';
+import { type OpenmrsResource, useConfig, openmrsFetch, restBaseUrl } from '@openmrs/esm-framework';
+
+export interface Patient {
+  uuid: string;
+  display: string;
+  identifiers: Array<any>;
+  person: Person;
+}
+
+export interface Person {
+  age: number;
+  attributes: Array<Attribute>;
+  birthDate: string;
+  gender: string;
+  display: string;
+  preferredAddress: OpenmrsResource;
+  uuid: string;
+}
+
+export interface Attribute {
+  attributeType: OpenmrsResource;
+  display: string;
+  uuid: string;
+  value: string | number;
+}
+
 
 const customRepresentation =
   'custom:(uuid,display,identifiers:(identifier,uuid,preferred,location:(uuid,name),identifierType:(uuid,name,format,formatDescription,validator)),person:(uuid,display,gender,birthdate,dead,age,deathDate,birthdateEstimated,causeOfDeath,preferredName:(uuid,preferred,givenName,middleName,familyName),attributes,preferredAddress:(uuid,preferred,address1,address2,cityVillage,longitude,stateProvince,latitude,country,postalCode,countyDistrict,address3,address4,address5,address6,address7)))';
