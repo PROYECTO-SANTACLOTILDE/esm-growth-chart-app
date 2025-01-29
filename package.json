@@ -46,6 +46,7 @@
     "@openmrs/esm-error-handling": "^6.0.4",
     "@openmrs/esm-extensions": "^6.0.4",
     "@openmrs/esm-navigation": "^6.0.4",
+    "@openmrs/esm-patient-common-lib": "^9.1.0",
     "@openmrs/esm-react-utils": "^6.0.4",
     "@openmrs/esm-state": "^6.0.4",
     "@openmrs/esm-translations": "^6.0.4",

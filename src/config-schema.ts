@@ -100,3 +100,32 @@ export type ChartConfig = {
     defaultIndicator: string;
   };
 };
+
+export interface BiometricsConfigObject {
+  bmiUnit: string;
+  heightUnit: string;
+  weightUnit: string;
+}
+export interface ConfigObject {
+  concepts: {
+    systolicBloodPressureUuid: string;
+    diastolicBloodPressureUuid: string;
+    pulseUuid: string;
+    temperatureUuid: string;
+    oxygenSaturationUuid: string;
+    heightUuid: string;
+    weightUuid: string;
+    respiratoryRateUuid: string;
+    midUpperArmCircumferenceUuid: string;
+    vitalSignsConceptSetUuid: string;
+  };
+  vitals: {
+    useFormEngine: boolean;
+    encounterTypeUuid: string;
+    formUuid: string;
+    formName: string;
+    useMuacColors: boolean;
+    showPrintButton: boolean;
+  };
+  biometrics: BiometricsConfigObject;
+}

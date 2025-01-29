@@ -8,13 +8,11 @@ import {
   useConfig,
 } from '@openmrs/esm-framework';
 import useSWRImmutable from 'swr/immutable';
-import useSWRInfinite from 'swr/infinite';
-import { type ObsRecord } from '@openmrs/esm-patient-common-lib';
+import useSWRInfinite, { type SWRInfiniteKeyedMutator } from 'swr/infinite';
 import { type KeyedMutator } from 'swr';
-import { type ConfigObject } from '../config-schema';
-import { assessValue, calculateBodyMassIndex, getReferenceRangesForConcept, interpretBloodPressure } from './helpers';
-import type { FHIRSearchBundleResponse, MappedVitals, PatientVitalsAndBiometrics, VitalsResponse } from './types';
-import { type VitalsBiometricsFormData } from '../vitals-biometrics-form/vitals-biometrics-form.workspace';
+import { type ConfigObject } from '../../../config-schema';
+import { assessValue, calculateBodyMassIndex, getReferenceRangesForConcept, interpretBloodPressure } from '../../../helpers/helpers';
+import type { FHIRSearchBundleResponse, MappedVitals, PatientVitalsAndBiometrics, VitalsResponse } from '../../../types/types';
 
 const pageSize = 100;
 
@@ -105,7 +103,7 @@ export const withUnit = (label: string, unit: string | null | undefined) => {
 // Each mutator is stored in the vitalsHooksMutates map and removed (via a useEffect hook) when the
 // hook is unmounted.
 let vitalsHooksCounter = 0;
-const vitalsHooksMutates = new Map<number, KeyedMutator<VitalsFetchResponse[]>>();
+const vitalsHooksMutates = new Map<number, SWRInfiniteKeyedMutator<VitalsFetchResponse[]>>();
 
 /**
  * Hook to get the vitals and / or biometrics for a patient
@@ -302,70 +300,6 @@ function vitalsProperties(conceptMetadata: Array<ConceptMetadata> | undefined) {
     recordedDate: resource?.effectiveDateTime,
     value: resource?.valueQuantity?.value,
   });
-}
-
-export function saveVitalsAndBiometrics(
-  encounterTypeUuid: string,
-  formUuid: string,
-  concepts: ConfigObject['concepts'],
-  patientUuid: string,
-  vitals: VitalsBiometricsFormData,
-  abortController: AbortController,
-  location: string,
-) {
-  return openmrsFetch<unknown>(`${restBaseUrl}/encounter`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    signal: abortController.signal,
-    body: {
-      patient: patientUuid,
-      location: location,
-      encounterType: encounterTypeUuid,
-      form: formUuid,
-      obs: createObsObject(vitals, concepts),
-    },
-  });
-}
-
-export function updateVitalsAndBiometrics(
-  concepts: ConfigObject['concepts'],
-  patientUuid: string,
-  vitals: VitalsBiometricsFormData,
-  encounterDatetime: Date,
-  abortController: AbortController,
-  encounterUuid: string,
-  location: string,
-) {
-  return openmrsFetch(`${restBaseUrl}/encounter/${encounterUuid}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    signal: abortController.signal,
-    body: {
-      encounterDatetime: encounterDatetime,
-      location: location,
-      patient: patientUuid,
-      obs: createObsObject(vitals, concepts),
-      orders: [],
-    },
-  });
-}
-
-function createObsObject(
-  vitals: VitalsBiometricsFormData,
-  concepts: ConfigObject['concepts'],
-): Array<Omit<ObsRecord, 'effectiveDateTime' | 'conceptClass' | 'encounter'>> {
-  return Object.entries(vitals)
-    .filter(([_, result]) => Boolean(result))
-    .map(([name, result]) => {
-      return {
-        concept: concepts[name + 'Uuid'],
-        value: result,
-      };
-    });
 }
 
 /**
