@@ -1,5 +1,5 @@
-export { usePatientContactAttributes } from './usePatientAttributes';
+export { usePatientAttributes, usePatientContactAttributes } from './usePatientAttributes';
 export { handleAPIResponse } from './handleAPIResponse';
-export { useEvents } from './useVitals';
+export { useVitalsAndBiometrics } from './useVitals';
 export { useChartConfig } from './useChartConfig';
 export { useCustomReferences } from './useCustomReferences';
