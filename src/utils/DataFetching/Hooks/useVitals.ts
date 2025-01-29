@@ -4,48 +4,91 @@ import useSWRInfinite from 'swr/infinite';
 
 const pageSize = 100;
 
-export function useVitalsAndBiometrics(patientUuid, mode = 'vitals') {
+export interface PatientVitalsAndBiometrics {
+  id: string;
+  date: string;
+  height?: number;
+  weight?: number;
+  headCircumference?: number;
+}
+
+export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals' | 'biometrics' | 'both' = 'vitals') {
   const { concepts } = useConfig();
 
-  const conceptUuids = useMemo(
-    () => Object.values(concepts).join(','),
-    [concepts],
-  );
+  const conceptUuids = useMemo(() => {
+    if (!concepts) return '';
+
+    return (mode === 'both'
+      ? Object.values(concepts)
+      : Object.values(concepts).filter((uuid) =>
+          mode === 'vitals' ? !['heightUuid', 'weightUuid', 'headCircumferenceUuid'].includes(uuid as string) : ['heightUuid', 'weightUuid', 'headCircumferenceUuid'].includes(uuid as string),
+        )
+    ).join(',');
+  }, [concepts, mode]);
 
   const getPage = useCallback(
-    (page, prevPageData) => ({
-      patientUuid,
-      conceptUuids,
-      page,
-      prevPageData,
-    }),
-    [conceptUuids, patientUuid],
+    (page, prevPageData) => {
+      if (prevPageData && prevPageData.data && !prevPageData.data.entry) {
+        return null; // Stop fetching if no more pages
+      }
+      return {
+        patientUuid,
+        conceptUuids,
+        page,
+        prevPageData,
+      };
+    },
+    [conceptUuids, patientUuid]
   );
 
   const { data, isLoading, error } = useSWRInfinite(
     getPage,
-    ({ patientUuid, conceptUuids, page }) => {
-      if (!patientUuid) return null; // 🚀 Prevent API calls with empty UUID
-      const url = `${fhirBaseUrl}/Observation?subject:Patient=${patientUuid}&code=${conceptUuids}&_sort=-date&_count=${pageSize}&_getpagesoffset=${page * pageSize}`;
-      return openmrsFetch(url);
-    },
+    async ({ patientUuid, conceptUuids, page }) => {
+      if (!patientUuid) return null;
+      const url = `${fhirBaseUrl}/Observation?subject=Patient/${patientUuid}&code=${conceptUuids}&_sort=-date&_count=${pageSize}&_getpagesoffset=${page * pageSize}`;
+      const response = await openmrsFetch(url);
+      return response || null;
+    }
   );
 
-  // Safely extract vitals data
   const formattedObs = useMemo(() => {
-    if (!data) return []; // 🚀 Avoid errors if data is undefined
+    if (!data) return []; // Prevent errors if `data` is undefined
 
-    return data.flatMap((page) =>
-      page?.data?.entry?.map((entry) => {
+    const vitalsMap = new Map<string, Partial<PatientVitalsAndBiometrics>>();
+
+    data.flatMap((page) =>
+      page?.data?.entry?.forEach((entry) => {
         const resource = entry.resource;
-        return {
-          date: resource?.effectiveDateTime ?? 'Unknown date',
-          value: resource?.valueQuantity?.value ?? 'Unknown value',
-          code: resource?.code?.coding?.[0]?.code ?? 'Unknown code',
-        };
-      }) ?? []
+        const recordedDate = resource?.effectiveDateTime ?? 'Unknown date';
+        const conceptUuid = resource?.code?.coding?.[0]?.code;
+        const value = resource?.valueQuantity?.value ?? null;
+
+        if (!conceptUuid || !value) return;
+
+        if (!vitalsMap.has(recordedDate)) {
+          vitalsMap.set(recordedDate, { id: recordedDate, date: recordedDate });
+        }
+
+        const vitalsEntry = vitalsMap.get(recordedDate);
+
+        switch (conceptUuid) {
+          case concepts.heightUuid:
+            vitalsEntry!.height = value;
+            break;
+          case concepts.weightUuid:
+            vitalsEntry!.weight = value;
+            break;
+          case concepts.headCircumferenceUuid:
+            vitalsEntry!.headCircumference = value;
+            break;
+          default:
+            break;
+        }
+      })
     );
-  }, [data]);
+
+    return Array.from(vitalsMap.values());
+  }, [data, concepts]);
 
   return { data: formattedObs, isLoading, error };
 }
