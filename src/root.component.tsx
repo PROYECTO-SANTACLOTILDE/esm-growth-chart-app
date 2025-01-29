@@ -36,6 +36,7 @@ const Root: React.FC = () => {
                 gender,
                 birthdate,
                 birthdateEstimated,
+                formattedAge: birthdate ? age(birthdate) : 'N/A',
               },
               null,
               2,
