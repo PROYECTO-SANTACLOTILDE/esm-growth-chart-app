@@ -12,20 +12,9 @@ export const useChartConfig = () => {
   return {
     chartConfig: {
       metadata: {
-        attributes: {
-          dateOfBirth: config.metadata.attributes.dateOfBirth,
-          gender: config.metadata.attributes.gender,
-          femaleOptionCode: config.metadata.attributes.femaleOptionCode,
-          maleOptionCode: config.metadata.attributes.maleOptionCode,
-        },
-        dataElements: {
           headCircumference: config.metadata.dataElements.headCircumference,
           height: config.metadata.dataElements.height,
           weight: config.metadata.dataElements.weight,
-        },
-        program: {
-          programStageId: config.metadata.program.programStageId,
-        },
       },
       settings: {
         customReferences: config.settings.customReferences,

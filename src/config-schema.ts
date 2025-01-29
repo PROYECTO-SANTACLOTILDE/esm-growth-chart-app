@@ -5,43 +5,21 @@ import { Type } from '@openmrs/esm-framework';
  */
 export const configSchema = {
   metadata: {
-    attributes: {
-      dateOfBirth: {
-        _type: Type.UUID,
-        _description: 'UUID del concepto detrás de fecha de nacimiento',
-        _default: 'uuid-for-date-of-birth', // Reemplaza con el UUID real
-      },
-      gender: {
-        _type: Type.UUID,
-        _description: 'UUID del concepto detrás de género',
-        _default: 'uuid-for-gender', // Reemplaza con el UUID real
-      },
-      femaleOptionCode: {
-        _type: Type.UUID,
-        _description: 'UUID para Mujer',
-        _default: 'uuid-for-female', // Reemplaza con el UUID real
-      },
-      maleOptionCode: {
-        _type: Type.UUID,
-        _description: 'UUID para Hombre',
-        _default: 'uuid-for-male', // Reemplaza con el UUID real
-      },
-    },
     dataElements: {
       headCircumference: {
         _type: Type.UUID,
         _description: 'UUID para circunferencia de la cabeza',
-        _default: 'uuid-for-head-circumference', // Reemplaza con el UUID real
+        _default: '5314AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
       },
       height: {
         _type: Type.UUID,
         _description: 'UUID para altura',
-        _default: 'uuid-for-height', // Reemplaza con el UUID real
+        _default: '5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
       },
       weight: {
         _type: Type.UUID,
         _description: 'UUID para peso',
-        _default: 'uuid-for-weight', // Reemplaza con el UUID real
+        _default: '5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
       },
     },
     program: {
@@ -79,6 +57,10 @@ export const configSchema = {
       _type: Type.ConceptUuid,
       _default: '5085AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
     },
+    headCircumference: {
+      _type: Type.UUID,
+      _default: '5314AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+    },
     diastolicBloodPressureUuid: {
       _type: Type.ConceptUuid,
       _default: '5086AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
@@ -100,6 +82,10 @@ export const configSchema = {
       _default: '5090AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
     },
     weightUuid: {
+      _type: Type.ConceptUuid,
+      _default: '5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+    },
+    headUuid: {
       _type: Type.ConceptUuid,
       _default: '5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
     },
