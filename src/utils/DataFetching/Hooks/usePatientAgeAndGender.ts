@@ -26,7 +26,7 @@ export interface Attribute {
 }
 
 const customRepresentation =
-  'custom:(uuid,display,person:(uuid,display,gender,birthdate,dead,age,deathDate,birthdateEstimated,causeOfDeath)';
+  'custom:(uuid,gender,birthdate,birthdateEstimated)';
 
 /**
  *  React hook that takes patientUuid and return Patient Attributes {@link Attribute}
@@ -35,13 +35,13 @@ const customRepresentation =
  */
 export const usePatientAgeAndGender = (patientUuid: string | null) => {
   const { data, error, isLoading } = useSWRImmutable<{ data: Patient }>(
-    `${restBaseUrl}/patient/${patientUuid}?v=${customRepresentation}`,
+    `${restBaseUrl}/person/${patientUuid}?v=${customRepresentation}`,
     openmrsFetch,
   );
 
   return {
     isLoading,
-    attributes: data?.data.person ?? [],
+    attributes: data?.data ?? [],
     error: error,
   };
 };
