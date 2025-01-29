@@ -25,21 +25,25 @@ export function useVitalsAndBiometrics(patientUuid, mode = 'vitals') {
   const { data, isLoading, error } = useSWRInfinite(
     getPage,
     ({ patientUuid, conceptUuids, page }) => {
+      if (!patientUuid) return null; // 🚀 Prevent API calls with empty UUID
       const url = `${fhirBaseUrl}/Observation?subject:Patient=${patientUuid}&code=${conceptUuids}&_sort=-date&_count=${pageSize}&_getpagesoffset=${page * pageSize}`;
       return openmrsFetch(url);
     },
   );
 
+  // Safely extract vitals data
   const formattedObs = useMemo(() => {
-    return data?.flatMap((page) =>
-      page.data.entry.map((entry) => {
+    if (!data) return []; // 🚀 Avoid errors if data is undefined
+
+    return data.flatMap((page) =>
+      page?.data?.entry?.map((entry) => {
         const resource = entry.resource;
         return {
-          date: resource.effectiveDateTime,
-          value: resource.valueQuantity?.value,
-          code: resource.code.coding[0]?.code,
+          date: resource?.effectiveDateTime ?? 'Unknown date',
+          value: resource?.valueQuantity?.value ?? 'Unknown value',
+          code: resource?.code?.coding?.[0]?.code ?? 'Unknown code',
         };
-      }),
+      }) ?? []
     );
   }, [data]);
 
