@@ -1,4 +1,4 @@
-export { usePatientAttributes, usePatientContactAttributes } from './usePatientAttributes';
+export { usePatientAgeAndGender } from './usePatientAgeAndGender';
 export { handleAPIResponse } from './handleAPIResponse';
 export { useVitalsAndBiometrics } from './useVitals';
 export { useChartConfig } from './useChartConfig';

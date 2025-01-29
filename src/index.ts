@@ -42,8 +42,3 @@ export const root = getAsyncLifecycle(() => import('./root.component'), options)
 /**
  * The following are named exports for the extensions defined in this frontend modules. See the `routes.json` file to see how these are used.
  */
-export const growthChart = getAsyncLifecycle(() => import('./charts/extensions/growth-chart.component'), options);
-export const growthChartV2 = getAsyncLifecycle(
-  () => import('./charts/extensions/growth-chart-weight.component'),
-  options,
-);
