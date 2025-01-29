@@ -26,19 +26,21 @@ export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals
     ).join(',');
   }, [concepts, mode]);
 
-  const { data, isLoading, error } = useSWR<{ data: { entry: Array<{ resource: any }> } }>(
+  const { data, isLoading, error } = useSWR<{ data: {
+    id: any; entry: Array<{ resource: any }>
+} }>(
     patientUuid ? `${fhirBaseUrl}/Observation?subject:Patient=${patientUuid}&code=${conceptUuids}&_sort=-date&_count=100` : null,
     openmrsFetch
   );
 
-  console.log(data?.data);
 
   const formattedObs = useMemo(() => {
-    if (!data) return [];
+    if (!data || !data.data?.entry) return [];
 
     const vitalsMap = new Map<string, Partial<PatientVitalsAndBiometrics>>();
+    const observationId = data?.data?.id; // Usa el ID de la observación si está disponible
 
-    data?.data?.entry?.forEach((entry) => {
+    data?.data?.entry.forEach((entry) => {
       const resource = entry.resource;
       const recordedDate = resource?.effectiveDateTime ?? 'Unknown date';
       const conceptUuid = resource?.code?.coding?.[0]?.code;
@@ -46,21 +48,21 @@ export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals
 
       if (!conceptUuid || !value) return;
 
-      if (!vitalsMap.has(recordedDate)) {
-        vitalsMap.set(recordedDate, { id: recordedDate, date: recordedDate });
+      if (!vitalsMap.has(observationId)) {
+        vitalsMap.set(observationId, { id: observationId, date: recordedDate });
       }
 
-      const vitalsEntry = vitalsMap.get(recordedDate);
+      const vitalsEntry = vitalsMap.get(observationId)!;
 
       switch (conceptUuid) {
         case concepts.heightUuid:
-          vitalsEntry!.height = value;
+          vitalsEntry.height = value;
           break;
         case concepts.weightUuid:
-          vitalsEntry!.weight = value;
+          vitalsEntry.weight = value;
           break;
         case concepts.headCircumferenceUuid:
-          vitalsEntry!.headCircumference = value;
+          vitalsEntry.headCircumference = value;
           break;
         default:
           break;
