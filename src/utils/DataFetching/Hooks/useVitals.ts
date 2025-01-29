@@ -38,7 +38,6 @@ export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals
     if (!data || !data.data?.entry) return [];
 
     const vitalsMap = new Map<string, Partial<PatientVitalsAndBiometrics>>();
-    const observationId = data?.data?.id; // Usa el ID de la observación si está disponible
 
     data?.data?.entry.forEach((entry) => {
       const resource = entry.resource;
@@ -48,11 +47,11 @@ export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals
 
       if (!conceptUuid || !value) return;
 
-      if (!vitalsMap.has(observationId)) {
-        vitalsMap.set(observationId, { id: observationId, date: recordedDate });
+      if (!vitalsMap.has(recordedDate)) {
+        vitalsMap.set(recordedDate, { id: recordedDate, date: recordedDate });
       }
 
-      const vitalsEntry = vitalsMap.get(observationId)!;
+      const vitalsEntry = vitalsMap.get(recordedDate)!;
 
       switch (conceptUuid) {
         case concepts.heightUuid:
