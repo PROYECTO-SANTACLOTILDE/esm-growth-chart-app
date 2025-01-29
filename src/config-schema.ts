@@ -69,10 +69,6 @@ export const configSchema = {
       _type: Type.ConceptUuid,
       _default: '5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
     },
-    midUpperArmCircumferenceUuid: {
-      _type: Type.ConceptUuid,
-      _default: '1343AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
-    },
     vitalSignsConceptSetUuid: {
       _type: Type.ConceptUuid,
       _default: '1114AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
@@ -166,16 +162,9 @@ export interface BiometricsConfigObject {
 }
 export interface ConfigObject {
   concepts: {
-    systolicBloodPressureUuid: string;
-    diastolicBloodPressureUuid: string;
-    pulseUuid: string;
-    temperatureUuid: string;
-    oxygenSaturationUuid: string;
+    headCircumferenceUuid: string;
     heightUuid: string;
     weightUuid: string;
-    respiratoryRateUuid: string;
-    midUpperArmCircumferenceUuid: string;
-    vitalSignsConceptSetUuid: string;
   };
   vitals: {
     useFormEngine: boolean;
