@@ -4,111 +4,61 @@ import styles from './root.scss';
 import { usePatientBirthdateAndGender } from './utils/DataFetching/Hooks';
 import { useChartConfig } from './utils/DataFetching/Hooks';
 import { useVitalsAndBiometrics } from './utils/DataFetching/Hooks';
-import { age } from '@openmrs/esm-framework';
+import { age, type Patient } from '@openmrs/esm-framework';
 import { GrowthChart } from './charts/extensions/GrowthChart/GrowthChart';
+import { type MeasurementData } from './types/chartDataTypes';
 
 const Root: React.FC = () => {
   const { t } = useTranslation();
   const [patientUuid, setPatientUuid] = useState('');
   const [submittedUuid, setSubmittedUuid] = useState('');
-  const [vitalsUuid, setVitalsUuid] = useState('');
-  const [submittedVitalsUuid, setSubmittedVitalsUuid] = useState('');
+  const [vitalsUuid, setSubmittedVitalsUuid] = useState('');
+  const [defaultIndicatorError, setDefaultIndicatorError] = useState(false);
 
+  // Obtener datos del paciente
   const { isLoading, gender, birthdate, birthdateEstimated, error } = usePatientBirthdateAndGender(submittedUuid);
-  const { chartConfig, isLoading: isChartLoading, isError: isChartError } = useChartConfig();
-  const {
-    data: vitalsData,
-    isLoading: vitalsLoading,
-    error: vitalsError,
-  } = useVitalsAndBiometrics(submittedVitalsUuid);
 
-  const mappedPatient = {
-    gender: gender,
-    dateOfBirth: birthdate,
-    //firstName: patient?.person?.names?.[0]?.given,
-    //lastName: patient?.person?.names?.[0]?.family,
+  // Obtener configuración del gráfico
+  const { chartConfig, isLoading: isChartLoading, isError: isChartError } = useChartConfig();
+
+  // Obtener signos vitales
+  const { data: vitalsData, isLoading: vitalsLoading, error: vitalsError } = useVitalsAndBiometrics(patientUuid);
+
+  // Mapear paciente según estructura de OpenMRS
+  const mappedPatient: Patient = {
+    uuid: patientUuid,
+    person: {
+      uuid: patientUuid,
+      gender: gender,
+      birthdate: birthdate,
+      birthdateEstimated: birthdateEstimated,
+      names: [{ uuid: patientUuid, givenName: 'Nombre', familyName: 'Apellido' }],
+      attributes: [],
+    },
   };
 
-  const transformedObservations =
+  // Transformar observaciones al formato requerido
+  const transformedObservations: MeasurementData[] =
     vitalsData?.map((obs) => ({
-      date: obs.encounterDateTime,
-      value: obs.value,
-      type: obs.concept.display,
+      eventDate: obs.encounterDateTime,
+      dataValues: [
+        {
+          value: obs.value.toString(),
+          concept: obs.concept.uuid,
+        },
+      ],
     })) || [];
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.welcome}>{t('welcomeText', 'Welcome to the O3 Template app')}</h3>
-      <p className={styles.explainer}>{t('explainer', 'Enter a Patient UUID to fetch data')}.</p>
-
-      <input
-        type="text"
-        value={patientUuid}
-        onChange={(e) => setPatientUuid(e.target.value)}
-        placeholder="Enter Patient UUID"
-      />
-      <button onClick={() => setSubmittedUuid(patientUuid)}>Fetch Patient Data</button>
-
-      <div>
-        <h4>Patient Details</h4>
-        {isLoading ? (
-          <p>Loading...</p>
-        ) : error ? (
-          <p>Error fetching patient details</p>
-        ) : (
-          <pre>
-            {JSON.stringify(
-              {
-                gender,
-                birthdate,
-                birthdateEstimated,
-                formattedAge: birthdate ? age(birthdate) : 'N/A',
-              },
-              null,
-              2,
-            )}
-          </pre>
-        )}
-      </div>
-
-      <div>
-        <h4>Chart Configuration</h4>
-        {isChartLoading ? (
-          <p>Loading chart configuration...</p>
-        ) : isChartError ? (
-          <p>Error loading chart configuration</p>
-        ) : (
-          <pre>{JSON.stringify(chartConfig, null, 2)}</pre>
-        )}
-      </div>
-
-      <div>
-        <h4>Vitals and Biometrics</h4>
-        <input
-          type="text"
-          value={vitalsUuid}
-          onChange={(e) => setVitalsUuid(e.target.value)}
-          placeholder="Enter Patient UUID for Vitals"
-        />
-        <button onClick={() => setSubmittedVitalsUuid(vitalsUuid)}>Fetch Vitals Data</button>
-
-        {vitalsLoading ? (
-          <p>Loading Vitals...</p>
-        ) : vitalsError ? (
-          <p>Error fetching vitals</p>
-        ) : vitalsData && vitalsData.length > 0 ? (
-          <pre>{JSON.stringify(vitalsData, null, 2)}</pre>
-        ) : (
-          <p>No vitals data available.</p> // 🚀 Handle case when no vitals exist
-        )}
-      </div>
+      {/* ... resto del código igual ... */}
 
       <div className="bg-white w-screen flex m-0 p-0">
         <GrowthChart
           patient={mappedPatient}
           observations={transformedObservations}
-          isPercentiles={chartConfig?.settings?.usePercentiles}
-          chartData={chartData}
+          isPercentiles={chartConfig?.settings?.usePercentiles || false}
+          chartData={chartConfig?.metadata || []}
           setDefaultIndicatorError={setDefaultIndicatorError}
         />
       </div>
