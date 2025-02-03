@@ -35,7 +35,7 @@ export const GrowthChart = ({
   const childAgeInWeeks = useMemo(() => differenceInWeeks(new Date(), dateOfBirth), [dateOfBirth]);
   const childAgeInMonths = useMemo(() => differenceInMonths(new Date(), dateOfBirth), [dateOfBirth]);
 
-  const [gender, setGender] = useState<string>(patientGender ? patientGender.toUpperCase() : GenderCodes.CGC_FEMALE);
+  const [gender, setGender] = useState<string>(patientGender ? patientGender.toUpperCase() : GenderCodes.CGC_Female);
 
   const { chartDataForGender } = useChartDataForGender({
     gender,
@@ -57,7 +57,7 @@ export const GrowthChart = ({
   );
 
   useEffect(() => {
-    if (patientGender && Object.values(GenderCodes).includes(patientGender.toUpperCase() as GenderCodes)) {
+    if (patientGender && Object.values(GenderCodes).includes(patientGender.toUpperCase())) {
       setGender(patientGender.toUpperCase());
     }
   }, [patientGender]);
