@@ -5,6 +5,7 @@ import { usePatientBirthdateAndGender } from './utils/DataFetching/Hooks';
 import { useChartConfig } from './utils/DataFetching/Hooks';
 import { useVitalsAndBiometrics } from './utils/DataFetching/Hooks';
 import { age } from '@openmrs/esm-framework';
+import { GrowthChart } from './charts/extensions/GrowthChart/GrowthChart';
 
 const Root: React.FC = () => {
   const { t } = useTranslation();
@@ -86,6 +87,17 @@ const Root: React.FC = () => {
         ) : (
           <p>No vitals data available.</p> // 🚀 Handle case when no vitals exist
         )}
+      </div>
+
+      <div className="bg-white w-screen flex m-0 p-0">
+        <GrowthChart
+          trackedEntity={mappedTrackedEntity}
+          measurementData={mappedGrowthVariables}
+          chartData={chartConfig.settings.customReferences ? customReferences : chartData}
+          defaultIndicator={defaultIndicator}
+          isPercentiles={isPercentiles}
+          setDefaultIndicatorError={setDefaultIndicatorError}
+        />
       </div>
     </div>
   );
