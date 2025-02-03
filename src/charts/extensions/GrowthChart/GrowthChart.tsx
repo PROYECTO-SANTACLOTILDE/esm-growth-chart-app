@@ -1,17 +1,19 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { differenceInMonths, differenceInWeeks } from 'date-fns';
+import { Layer, Tag } from '@carbon/react';
 import { GrowthChartBuilder } from './GrowthChartBuilder';
 import { ChartSelector } from './GrowthChartSelector';
-import { type ChartData, GenderCodes, MeasurementData } from '../../../types/chartDataTypes';
+import { type ChartData, GenderCodes, type MeasurementData } from '../../../types/chartDataTypes';
 import { useCalculateMinMaxValues } from '../../../utils/Hooks/Calculations';
 import { ChartSettingsButton } from './ChartSettingsButton';
 import { useChartDataForGender } from '../../../utils/Sorting';
-import { MappedEntityValues } from '../../utils/DataFetching/Sorting/useMappedTrackedEntity';
 import { useAppropriateChartData } from '../../../utils/Hooks/Calculations/useAppropriateChartData';
+import { type Patient } from '@openmrs/esm-framework';
 
 interface GrowthChartProps {
-  trackedEntity: MappedEntityValues;
-  measurementData: MeasurementData[];
+  patient: Patient;
+  observations: MeasurementData[];
   isPercentiles: boolean;
   chartData: ChartData;
   defaultIndicator?: string;
@@ -19,21 +21,22 @@ interface GrowthChartProps {
 }
 
 export const GrowthChart = ({
-  trackedEntity,
-  measurementData,
+  patient,
+  observations,
   isPercentiles,
   chartData,
   defaultIndicator,
   setDefaultIndicatorError,
 }: GrowthChartProps) => {
-  const trackedEntityGender = trackedEntity?.gender;
-  const dateOfBirth = useMemo(() => new Date(trackedEntity.dateOfBirth), [trackedEntity.dateOfBirth]);
+  const { t } = useTranslation();
+  const patientGender = patient?.person?.gender;
+  const dateOfBirth = useMemo(() => new Date(patient?.person?.birthdate), [patient?.person?.birthdate]);
+
   const childAgeInWeeks = useMemo(() => differenceInWeeks(new Date(), dateOfBirth), [dateOfBirth]);
   const childAgeInMonths = useMemo(() => differenceInMonths(new Date(), dateOfBirth), [dateOfBirth]);
 
-  const [gender, setGender] = useState<string>(
-    trackedEntityGender !== undefined ? trackedEntityGender : GenderCodes.CGC_Female,
-  );
+  const [gender, setGender] = useState<string>(patientGender ? patientGender.toUpperCase() : GenderCodes.CGC_FEMALE);
+
   const { chartDataForGender } = useChartDataForGender({
     gender,
     chartData,
@@ -54,13 +57,12 @@ export const GrowthChart = ({
   );
 
   useEffect(() => {
-    if (trackedEntity && Object.values(GenderCodes).includes(trackedEntity.gender)) {
-      setGender(trackedEntity.gender);
+    if (patientGender && Object.values(GenderCodes).includes(patientGender.toUpperCase() as GenderCodes)) {
+      setGender(patientGender.toUpperCase());
     }
-  }, [trackedEntity]);
+  }, [patientGender]);
 
   const dataSetEntry = chartDataForGender[selectedCategory]?.datasets[selectedDataset];
-
   const dataSetValues = isPercentiles ? dataSetEntry?.percentileDatasetValues : dataSetEntry?.zScoreDatasetValues;
   const dataSetMetadata = dataSetEntry?.metadata;
   const { min, max } = useCalculateMinMaxValues(dataSetValues);
@@ -72,7 +74,11 @@ export const GrowthChart = ({
   }, [min, max]);
 
   if (!chartDataForGender || !dataSetValues) {
-    return null;
+    return (
+      <Layer>
+        <Tag type="red">{t('noChartData', 'No chart data available')}</Tag>
+      </Layer>
+    );
   }
 
   const keysDataSet = Object.keys(dataSetValues[0]);
@@ -82,42 +88,35 @@ export const GrowthChart = ({
   };
 
   return (
-    <>
-      <div className="flex justify-between px-14">
+    <Layer>
+      <div className="flex justify-between px-4">
         <ChartSelector
           category={selectedCategory}
           dataset={selectedDataset}
           setCategory={setCategory}
           setDataset={setDataset}
           chartData={chartDataForGender}
-          isDisabled={trackedEntityGender !== undefined}
+          isDisabled={!!patientGender}
           gender={gender}
           setGender={setGender}
         />
-        <div>
-          <ChartSettingsButton
-            category={selectedCategory}
-            dataset={selectedDataset}
-            gender={gender}
-            trackedEntity={trackedEntity}
-          />
-        </div>
+
+        <ChartSettingsButton category={selectedCategory} dataset={selectedDataset} gender={gender} patient={patient} />
       </div>
-      <div className="px-2">
-        <div className="overflow-auto">
-          <GrowthChartBuilder
-            measurementData={measurementData}
-            datasetValues={dataSetValues}
-            datasetMetadata={dataSetMetadata}
-            yAxisValues={yAxisValues}
-            keysDataSet={keysDataSet}
-            dateOfBirth={new Date(trackedEntity?.dateOfBirth)}
-            category={selectedCategory}
-            dataset={selectedDataset}
-            isPercentiles={isPercentiles}
-          />
-        </div>
-      </div>
-    </>
+
+      <Layer>
+        <GrowthChartBuilder
+          measurementData={observations}
+          datasetValues={dataSetValues}
+          datasetMetadata={dataSetMetadata}
+          yAxisValues={yAxisValues}
+          keysDataSet={keysDataSet}
+          dateOfBirth={dateOfBirth}
+          category={selectedCategory}
+          dataset={selectedDataset}
+          isPercentiles={isPercentiles}
+        />
+      </Layer>
+    </Layer>
   );
 };

@@ -1,8 +1,7 @@
 import i18n from '@dhis2/d2-i18n';
 import { Scriptable, ScriptableTooltipContext, TooltipPositionerMap } from 'chart.js';
 import { differenceInMonths, differenceInWeeks, differenceInYears } from 'date-fns';
-import { unitCodes, CategoryCodes, timeUnitData, TimeUnitCodes } from '../../../types/chartDataTypes';
-
+import { type unitCodes, type typeCategoryCodes, type timeUnitData, type typeTimeUnitCodes } from '../../../../types/chartDataTypes';
 interface TooltipConfig {
     enabled: boolean;
     intersect: boolean;

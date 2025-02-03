@@ -1,20 +1,20 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { OverflowMenuItem } from '@carbon/react';
+import { Printer } from '@carbon/react/icons';
+import { type Patient } from '@openmrs/esm-framework';
 import { EllipsisButton } from './EllipsisButton';
 import { type CategoryCodes, type ChartData } from '../../../../types/chartDataTypes';
-import { type MappedEntityValues } from '../../../../utils/Sorting/useMappedTrackedEntity';
 import { PrintDocument } from '../../../../utils/ChartOptions';
-import { Printer } from '@carbon/react/icons'; // Ícono de Carbon
 
 interface ChartSettingsButtonProps {
   category: keyof typeof CategoryCodes;
   dataset: keyof ChartData;
   gender: string;
-  trackedEntity: MappedEntityValues;
+  patient: Patient;
 }
 
-export const ChartSettingsButton = ({ category, dataset, gender, trackedEntity }: ChartSettingsButtonProps) => {
+export const ChartSettingsButton = ({ category, dataset, gender, patient }: ChartSettingsButtonProps) => {
   const { t } = useTranslation();
 
   const handlePrintDocument = () => {
@@ -22,18 +22,19 @@ export const ChartSettingsButton = ({ category, dataset, gender, trackedEntity }
       category,
       dataset,
       gender,
-      firstName: trackedEntity.firstName,
-      lastName: trackedEntity.lastName,
+      firstName: patient.person.names[0]?.givenName || '',
+      lastName: patient.person.names[0]?.familyName || '',
     });
   };
 
   return (
-    <EllipsisButton dataTest="widget-profile-overflow-menu" secondary small>
+    <EllipsisButton data-testid="widget-profile-overflow-menu" kind="ghost" size="sm">
       <OverflowMenuItem
-        itemText={t('Print')}
+        itemText={t('print', 'Print')}
         onClick={handlePrintDocument}
         renderIcon={Printer}
         data-testid="print-menu-item"
+        requireTitle
       />
     </EllipsisButton>
   );

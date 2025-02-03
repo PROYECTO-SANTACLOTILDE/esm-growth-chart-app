@@ -22,6 +22,20 @@ const Root: React.FC = () => {
     error: vitalsError,
   } = useVitalsAndBiometrics(submittedVitalsUuid);
 
+  const mappedPatient = {
+    gender: gender,
+    dateOfBirth: birthdate,
+    //firstName: patient?.person?.names?.[0]?.given,
+    //lastName: patient?.person?.names?.[0]?.family,
+  };
+
+  const transformedObservations =
+    vitalsData?.map((obs) => ({
+      date: obs.encounterDateTime,
+      value: obs.value,
+      type: obs.concept.display,
+    })) || [];
+
   return (
     <div className={styles.container}>
       <h3 className={styles.welcome}>{t('welcomeText', 'Welcome to the O3 Template app')}</h3>
@@ -91,11 +105,10 @@ const Root: React.FC = () => {
 
       <div className="bg-white w-screen flex m-0 p-0">
         <GrowthChart
-          trackedEntity={mappedTrackedEntity}
-          measurementData={mappedGrowthVariables}
-          chartData={chartConfig.settings.customReferences ? customReferences : chartData}
-          defaultIndicator={defaultIndicator}
-          isPercentiles={isPercentiles}
+          patient={mappedPatient}
+          observations={transformedObservations}
+          isPercentiles={chartConfig?.settings?.usePercentiles}
+          chartData={chartData}
           setDefaultIndicatorError={setDefaultIndicatorError}
         />
       </div>

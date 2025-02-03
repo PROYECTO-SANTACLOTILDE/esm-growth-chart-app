@@ -3,49 +3,48 @@ import { Button, OverflowMenu, OverflowMenuItem, Layer } from '@carbon/react';
 import { OverflowMenuVertical } from '@carbon/react/icons';
 
 type Props = {
-  primary?: boolean;
-  secondary?: boolean;
+  kind?: 'primary' | 'secondary' | 'tertiary' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
   dataTest?: string;
-  small?: boolean;
-  large?: boolean;
   children: ReactNode;
+  iconDescription?: string;
 };
 
-export const EllipsisButton = ({ primary, secondary, small, large, dataTest, children }: Props) => {
+export const EllipsisButton = ({
+  kind = 'ghost',
+  size = 'md',
+  dataTest,
+  children,
+  iconDescription = 'More options',
+}: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const toggleMenu = () => {
-    setIsOpen((prev) => !prev);
-  };
-
-  const closeMenu = () => {
-    setIsOpen(false);
-  };
+  const toggleMenu = () => setIsOpen((prev) => !prev);
+  const closeMenu = () => setIsOpen(false);
 
   return (
     <>
       <Button
         ref={buttonRef}
-        kind={primary ? 'primary' : secondary ? 'secondary' : 'tertiary'}
-        size={small ? 'sm' : large ? 'lg' : 'md'}
+        kind={kind}
+        size={size}
         data-testid={dataTest}
         onClick={toggleMenu}
         renderIcon={OverflowMenuVertical}
-        iconDescription="Más opciones"
+        iconDescription={iconDescription}
+        hasIconOnly
       />
       {isOpen && (
         <Layer>
           <OverflowMenu
             open={isOpen}
             onClose={closeMenu}
-            aria-label="Opciones adicionales"
+            aria-label="Additional options"
             menuOptionsClass="custom-overflow-menu"
             selectorPrimaryFocus={buttonRef.current || undefined}
           >
-            {React.Children.map(children, (child, index) => (
-              <OverflowMenuItem key={index} itemText={child?.toString() || ''} />
-            ))}
+            {children}
           </OverflowMenu>
         </Layer>
       )}
