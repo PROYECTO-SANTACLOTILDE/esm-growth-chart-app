@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { OverflowMenuItem } from '@carbon/react';
 import { EllipsisButton } from './EllipsisButton';
 import { type CategoryCodes, type ChartData } from '../../../../types/chartDataTypes';
-import { MappedEntityValues } from '../../../utils/DataFetching/Sorting/useMappedTrackedEntity';
+import { type MappedEntityValues } from '../../../../utils/Sorting/useMappedTrackedEntity';
 import { PrintDocument } from '../../../../utils/ChartOptions';
 import { Printer } from '@carbon/react/icons'; // Ícono de Carbon
 

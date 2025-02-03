@@ -2,12 +2,12 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { differenceInMonths, differenceInWeeks } from 'date-fns';
 import { GrowthChartBuilder } from './GrowthChartBuilder';
 import { ChartSelector } from './GrowthChartSelector';
-import { type ChartData, type GenderCodes, type MeasurementData } from '../../../types/chartDataTypes';
+import { type ChartData, GenderCodes, MeasurementData } from '../../../types/chartDataTypes';
 import { useCalculateMinMaxValues } from '../../../utils/Hooks/Calculations';
 import { ChartSettingsButton } from './ChartSettingsButton';
-import { useChartDataForGender } from '../../utils/DataFetching/Sorting';
+import { useChartDataForGender } from '../../../utils/Sorting';
 import { MappedEntityValues } from '../../utils/DataFetching/Sorting/useMappedTrackedEntity';
-import { useAppropriateChartData } from '../../utils/Hooks/Calculations/useAppropriateChartData';
+import { useAppropriateChartData } from '../../../utils/Hooks/Calculations/useAppropriateChartData';
 
 interface GrowthChartProps {
   trackedEntity: MappedEntityValues;
