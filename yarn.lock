@@ -1866,6 +1866,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^7.8.0"
     "@typescript-eslint/parser": "npm:^7.8.0"
     chart.js: "npm:^4.4.7"
+    chartjs-plugin-annotation: "npm:^3.1.0"
     css-loader: "npm:^6.8.1"
     dotenv: "npm:^16.0.3"
     eslint: "npm:^8.50.0"
@@ -1891,6 +1892,7 @@ __metadata:
     react-dom: "npm:^18.2.0"
     react-i18next: "npm:^11.18.6"
     react-router-dom: "npm:^6.14.1"
+    react-virtualized-auto-sizer: "npm:^1.0.25"
     rxjs: "npm:^6.6.7"
     sass: "npm:^1.83.4"
     single-spa: "npm:^6.0.3"
@@ -9180,6 +9182,15 @@ __metadata:
   dependencies:
     "@kurkle/color": "npm:^0.3.0"
   checksum: 10/f80c5e61adf8118d71d189db431f9bf82864e42d19d1c19008afdcf5e8933545f1f8a8662a4e7809f21a518781f12f2242657864c863016303cbf63a2aade72b
+  languageName: node
+  linkType: hard
+
+"chartjs-plugin-annotation@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "chartjs-plugin-annotation@npm:3.1.0"
+  peerDependencies:
+    chart.js: ">=4.0.0"
+  checksum: 10/0b0889e665f1aefd2a7b24998013df72c7e022836427b799f219f2f9d838a89ec0a5531d233cfe440c3798bf85646d8435151967b678ab3ffc63c6266edfbf2c
   languageName: node
   linkType: hard
 
@@ -21173,6 +21184,16 @@ __metadata:
     react: ">=15.0.0"
     react-dom: ">=15.0.0"
   checksum: 10/1c26e2f7807547d7ebb9c317b8b63c0edaa7542bf2734309c9036484af4825cebb7e32e0ecdd94d7fbffa3c65666530bde9a84f673d438acf9a4d49e0aaed180
+  languageName: node
+  linkType: hard
+
+"react-virtualized-auto-sizer@npm:^1.0.25":
+  version: 1.0.25
+  resolution: "react-virtualized-auto-sizer@npm:1.0.25"
+  peerDependencies:
+    react: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10/43678a904019f0413a3c649b5b64ea51263283120c991b285077b5075cf2ea564571f6d48b3a396b588d500d45820d1c98989cb7091e2a009e73e4faa7da9d20
   languageName: node
   linkType: hard
 

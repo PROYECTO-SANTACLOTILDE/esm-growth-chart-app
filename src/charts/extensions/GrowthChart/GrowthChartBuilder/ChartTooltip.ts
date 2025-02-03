@@ -1,7 +1,7 @@
-import i18n from '@dhis2/d2-i18n';
-import { Scriptable, ScriptableTooltipContext, TooltipPositionerMap } from 'chart.js';
+import { useTranslation } from 'react-i18next';
+import { type Scriptable, type ScriptableTooltipContext, type TooltipPositionerMap } from 'chart.js';
 import { differenceInMonths, differenceInWeeks, differenceInYears } from 'date-fns';
-import { type unitCodes, type typeCategoryCodes, type timeUnitData, type typeTimeUnitCodes } from '../../../../types/chartDataTypes';
+import { CategoryCodes, unitCodes, timeUnitData, TimeUnitCodes } from '../../../../types/chartDataTypes';
 interface TooltipConfig {
     enabled: boolean;
     intersect: boolean;
@@ -27,6 +27,7 @@ interface TooltipConfig {
 export const ChartTooltip = (category: string, xAxisLabel: string, yAxisLabel: string, dateOfBirth: Date): TooltipConfig => {
     let xUnit = '';
     let yUnit = '';
+    const { t } = useTranslation();
 
     if (category === CategoryCodes.hcfa_b || category === CategoryCodes.hcfa_g) {
         yUnit = unitCodes.cm;
@@ -64,7 +65,7 @@ export const ChartTooltip = (category: string, xAxisLabel: string, yAxisLabel: s
             title: () => '',
             beforeLabel: (tooltipItem) => {
                 const date = new Date(tooltipItem.raw.eventDate).toLocaleDateString();
-                return `${i18n.t('Date')}: ${date}`;
+                return `${t('Date')}: ${date}`;
             },
             label: (tooltipItem) => {
                 const date = new Date(tooltipItem.raw.eventDate);
@@ -81,14 +82,14 @@ export const ChartTooltip = (category: string, xAxisLabel: string, yAxisLabel: s
                 xLabel = `${xAxisLabel}: ${xValue} ${xUnit}`;
 
                 if (xAxisLabel === TimeUnitCodes.weeks) {
-                    xLabel = `${i18n.t('Age')}: `;
+                    xLabel = `${t('Age')}: `;
                     xLabel += `${weeks} ${(weeks === 1) ? timeUnitData.Weeks.singular : timeUnitData.Weeks.plural} `;
                 }
                 if (xAxisLabel === TimeUnitCodes.months) {
                     const months = differenceInMonths(date, dateOfBirth) % 12;
                     const years = differenceInYears(date, dateOfBirth);
 
-                    xLabel = `${i18n.t('Age')}: `;
+                    xLabel = `${t('Age')}: `;
 
                     if (weeks <= 13) {
                         xLabel += `${weeks} ${(weeks === 1) ? timeUnitData.Weeks.singular : timeUnitData.Weeks.plural} `;
