@@ -4,7 +4,7 @@ import { ChartSelectorDropdown } from './ChartSelectorDropdown';
 
 interface ChartSelectorProps {
   category: keyof typeof CategoryCodes;
-  dataset: keyof ChartData;
+  dataset: string;
   setCategory: (category: keyof typeof CategoryCodes) => void;
   setDataset: (dataset: string) => void;
   chartData: ChartData;
@@ -23,39 +23,57 @@ export const ChartSelector = ({
   gender,
   setGender,
 }: ChartSelectorProps) => {
-  const handleCategoryChange = (value: string) => {
-    const newCategory = Object.keys(chartData).find(
-      (key) => chartData[key].categoryMetadata.label === value,
-    ) as keyof typeof CategoryCodes;
-    setCategory(newCategory);
-    setDataset(Object.keys(chartData[newCategory].datasets)[0]);
-  };
+  const genderItems = Object.values(GenderCodes).map((code) => ({
+    id: code,
+    text: code === GenderCodes.CGC_Female ? 'Female' : 'Male',
+  }));
 
-  const handleDatasetChange = (value: string) => {
-    setDataset(value);
+  const categoryItems = Object.keys(chartData).map((key) => ({
+    id: key,
+    text: chartData[key].categoryMetadata.label,
+  }));
+
+  const datasetItems = Object.keys(chartData[category].datasets).map((key) => ({
+    id: key,
+    text: key,
+  }));
+
+  const handleCategoryChange = (categoryKey: string) => {
+    setCategory(categoryKey as keyof typeof CategoryCodes);
+    setDataset(Object.keys(chartData[categoryKey].datasets)[0]);
   };
 
   return (
-    <div className="flex flex-wrap gap-2 items-center">
-      <ChartSelectorDropdown
-        title={gender}
-        items={Object.values(GenderCodes)}
-        handleItemChange={setGender}
-        isDisabled={isDisabled}
-        dataTest="CGC-gender-dropdown"
-      />
-      <ChartSelectorDropdown
-        title={CategoryToLabel[category]}
-        items={Object.keys(chartData).map((key) => chartData[key].categoryMetadata.label)}
-        handleItemChange={handleCategoryChange}
-        dataTest="CGC-category-dropdown"
-      />
-      <ChartSelectorDropdown
-        title={dataset}
-        items={Object.keys(chartData[category].datasets)}
-        handleItemChange={handleDatasetChange}
-        dataTest="CGC-dataset-dropdown"
-      />
+    <div className="cds--grid cds--grid--condensed">
+      <div className="cds--row cds--grid-row">
+        <div className="cds--col">
+          <ChartSelectorDropdown
+            title={gender}
+            items={genderItems}
+            handleItemChange={(value) => setGender(value as keyof typeof GenderCodes)}
+            isDisabled={isDisabled}
+            dataTest="gender-selector"
+          />
+        </div>
+
+        <div className="cds--col">
+          <ChartSelectorDropdown
+            title={CategoryToLabel[category]}
+            items={categoryItems}
+            handleItemChange={handleCategoryChange}
+            dataTest="category-selector"
+          />
+        </div>
+
+        <div className="cds--col">
+          <ChartSelectorDropdown
+            title={dataset}
+            items={datasetItems}
+            handleItemChange={setDataset}
+            dataTest="dataset-selector"
+          />
+        </div>
+      </div>
     </div>
   );
 };
