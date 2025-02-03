@@ -9,7 +9,7 @@ export const configSchema = {
       headCircumference: {
         _type: Type.UUID,
         _description: 'UUID para circunferencia de la cabeza',
-        _default: '5314AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+        _default: '163555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
       },
       height: {
         _type: Type.UUID,
@@ -55,7 +55,7 @@ export const configSchema = {
   concepts: {
     headCircumference: {
       _type: Type.UUID,
-      _default: '5314AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
+      _default: '163555AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
     },
     heightUuid: {
       _type: Type.ConceptUuid,

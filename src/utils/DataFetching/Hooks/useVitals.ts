@@ -26,6 +26,7 @@ export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals
     ).join(',');
   }, [concepts, mode]);
 
+
   const { data, isLoading, error } = useSWR<{ data: {
     id: any; entry: Array<{ resource: any }>
 } }>(
@@ -33,11 +34,10 @@ export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals
     openmrsFetch
   );
 
-
   const formattedObs = useMemo(() => {
     if (!data || !data.data?.entry) return [];
 
-    const vitalsMap = new Map<string, Partial<PatientVitalsAndBiometrics>>();
+    const vitalsMap = new Map<string, PatientVitalsAndBiometrics>();
 
     data?.data?.entry.forEach((entry) => {
       const resource = entry.resource;

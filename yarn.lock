@@ -1558,6 +1558,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@carbon/icons-react@npm:^11.54.0":
+  version: 11.54.0
+  resolution: "@carbon/icons-react@npm:11.54.0"
+  dependencies:
+    "@carbon/icon-helpers": "npm:^10.54.0"
+    "@ibm/telemetry-js": "npm:^1.5.0"
+    prop-types: "npm:^15.7.2"
+  peerDependencies:
+    react: ">=16"
+  checksum: 10/094c84dea84d3414cd4015eada0ec1d36c269a66a4d89ec167fd22c2dfd085c001e58ea60591e25069c987e0cfd20e9d4dbea9e2cbd1237572f3fd26de3d9b62
+  languageName: node
+  linkType: hard
+
 "@carbon/layout@npm:^11.19.0, @carbon/layout@npm:^11.27.0, @carbon/layout@npm:^11.27.1":
   version: 11.27.1
   resolution: "@carbon/layout@npm:11.27.1"
@@ -1822,6 +1835,7 @@ __metadata:
   resolution: "@duvet05/esm-template-app@workspace:."
   dependencies:
     "@carbon/charts-react": "npm:^1.22.8"
+    "@carbon/icons-react": "npm:^11.54.0"
     "@carbon/react": "npm:^1.68.0"
     "@openmrs/esm-api": "npm:^6.0.4"
     "@openmrs/esm-error-handling": "npm:^6.0.4"
