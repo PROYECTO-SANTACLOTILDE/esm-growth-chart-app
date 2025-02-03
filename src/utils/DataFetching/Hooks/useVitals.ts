@@ -2,12 +2,13 @@ import { useMemo } from 'react';
 import { fhirBaseUrl, openmrsFetch, useConfig } from '@openmrs/esm-framework';
 import useSWR from 'swr';
 
-export interface PatientVitalsAndBiometrics {
-  id: string;
-  date: string;
-  height?: number;
-  weight?: number;
-  headCircumference?: number;
+export interface MeasurementData {
+  eventDate: Date;
+  dataValues: {
+    weight: string;
+    height: string;
+    headCircumference: string;
+  };
 }
 
 export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals' | 'biometrics' | 'both' = 'vitals') {
@@ -26,49 +27,51 @@ export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals
     ).join(',');
   }, [concepts, mode]);
 
-
-  const { data, isLoading, error } = useSWR<{ data: {
-    id: any; entry: Array<{ resource: any }>
-} }>(
+  const { data, isLoading, error } = useSWR<{ data: { entry: Array<{ resource: any }> } }>(
     patientUuid ? `${fhirBaseUrl}/Observation?subject:Patient=${patientUuid}&code=${conceptUuids}&_sort=-date&_count=100` : null,
     openmrsFetch
   );
 
-  const formattedObs = useMemo(() => {
-    if (!data || !data.data?.entry) return [];
+  const formattedObs: MeasurementData[] = useMemo(() => {
+    if (!data?.data?.entry) return [];
 
-    const vitalsMap = new Map<string, PatientVitalsAndBiometrics>();
+    const measurementsMap = new Map<string, MeasurementData>();
 
-    data?.data?.entry.forEach((entry) => {
+    data.data.entry.forEach((entry) => {
       const resource = entry.resource;
-      const recordedDate = resource?.effectiveDateTime ?? 'Unknown date';
+      const date = resource?.effectiveDateTime;
       const conceptUuid = resource?.code?.coding?.[0]?.code;
-      const value = resource?.valueQuantity?.value ?? null;
+      const value = resource?.valueQuantity?.value;
 
-      if (!conceptUuid || !value) return;
+      if (!date || !conceptUuid || !value) return;
 
-      if (!vitalsMap.has(recordedDate)) {
-        vitalsMap.set(recordedDate, { id: recordedDate, date: recordedDate });
+      if (!measurementsMap.has(date)) {
+        measurementsMap.set(date, {
+          eventDate: new Date(date),
+          dataValues: {
+            weight: '',
+            height: '',
+            headCircumference: ''
+          }
+        });
       }
 
-      const vitalsEntry = vitalsMap.get(recordedDate)!;
+      const measurement = measurementsMap.get(date)!;
 
       switch (conceptUuid) {
         case concepts.heightUuid:
-          vitalsEntry.height = value;
+          measurement.dataValues.height = value.toString();
           break;
         case concepts.weightUuid:
-          vitalsEntry.weight = value;
+          measurement.dataValues.weight = value.toString();
           break;
         case concepts.headCircumferenceUuid:
-          vitalsEntry.headCircumference = value;
-          break;
-        default:
+          measurement.dataValues.headCircumference = value.toString();
           break;
       }
     });
 
-    return Array.from(vitalsMap.values());
+    return Array.from(measurementsMap.values());
   }, [data, concepts]);
 
   return { data: formattedObs, isLoading, error };
