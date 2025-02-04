@@ -12,9 +12,9 @@ export const useChartConfig = () => {
   return {
     chartConfig: {
       metadata: {
-          headCircumference: config.metadata.dataElements.headCircumference,
-          height: config.metadata.dataElements.height,
-          weight: config.metadata.dataElements.weight,
+        headCircumference: config.metadata.dataElements.headCircumference,
+        height: config.metadata.dataElements.height,
+        weight: config.metadata.dataElements.weight,
       },
       settings: {
         customReferences: config.settings.customReferences,

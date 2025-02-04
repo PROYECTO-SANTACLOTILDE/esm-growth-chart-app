@@ -39,8 +39,10 @@ export function startupApp() {
  */
 export const root = getAsyncLifecycle(() => import('./root.component'), options);
 
-
-export const growthChart = getAsyncLifecycle(() => import('./charts/extensions/GrowthChart/growthchart-overview'), options);
+export const growthChart = getAsyncLifecycle(
+  () => import('./charts/extensions/GrowthChart/growthchart-overview'),
+  options,
+);
 
 /**
  * The following are named exports for the extensions defined in this frontend modules. See the `routes.json` file to see how these are used.

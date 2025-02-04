@@ -19,7 +19,7 @@ const customRepresentation = 'custom:(uuid,gender,birthdate,birthdateEstimated)'
 export const usePatientBirthdateAndGender = (patientUuid) => {
   const { data, isLoading, error } = useSWRImmutable<{ data: PatientInfo }>(
     `${restBaseUrl}/person/${patientUuid}?v=${customRepresentation}`,
-    openmrsFetch
+    openmrsFetch,
   );
 
   const rawGender = data?.data.gender ?? GenderCodes.CGC_Female;
@@ -29,6 +29,6 @@ export const usePatientBirthdateAndGender = (patientUuid) => {
     birthdate: data?.data.birthdate ?? '',
     birthdateEstimated: data?.data.birthdateEstimated ?? false,
     isLoading,
-    error
+    error,
   };
 };

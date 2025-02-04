@@ -17,19 +17,22 @@ export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals
   const conceptUuids = useMemo(() => {
     if (!concepts) return '';
 
-    return (mode === 'both'
-      ? Object.values(concepts)
-      : Object.values(concepts).filter((uuid) =>
-          mode === 'vitals'
-            ? !['heightUuid', 'weightUuid', 'headCircumferenceUuid'].includes(uuid as string)
-            : ['heightUuid', 'weightUuid', 'headCircumferenceUuid'].includes(uuid as string),
-        )
+    return (
+      mode === 'both'
+        ? Object.values(concepts)
+        : Object.values(concepts).filter((uuid) =>
+            mode === 'vitals'
+              ? !['heightUuid', 'weightUuid', 'headCircumferenceUuid'].includes(uuid as string)
+              : ['heightUuid', 'weightUuid', 'headCircumferenceUuid'].includes(uuid as string),
+          )
     ).join(',');
   }, [concepts, mode]);
 
   const { data, isLoading, error } = useSWR<{ data: { entry: Array<{ resource: any }> } }>(
-    patientUuid ? `${fhirBaseUrl}/Observation?subject:Patient=${patientUuid}&code=${conceptUuids}&_sort=-date&_count=100` : null,
-    openmrsFetch
+    patientUuid
+      ? `${fhirBaseUrl}/Observation?subject:Patient=${patientUuid}&code=${conceptUuids}&_sort=-date&_count=100`
+      : null,
+    openmrsFetch,
   );
 
   const formattedObs: MeasurementData[] = useMemo(() => {
@@ -51,8 +54,8 @@ export function useVitalsAndBiometrics(patientUuid: string | null, mode: 'vitals
           dataValues: {
             weight: '',
             height: '',
-            headCircumference: ''
-          }
+            headCircumference: '',
+          },
         });
       }
 

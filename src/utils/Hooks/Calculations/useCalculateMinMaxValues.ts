@@ -8,7 +8,7 @@ export function useCalculateMinMaxValues(datasetValues: Array<Record<string, unk
   const flatValues: number[] = datasetValues.flatMap((entry) =>
     Object.values(entry).filter((value): value is number => {
       return typeof value === 'number' && Number.isFinite(value);
-    })
+    }),
   );
 
   // Verificar si no quedaron valores válidos después del filtrado
