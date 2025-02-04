@@ -1,17 +1,9 @@
 {
-  "error": {
-    "loadingData": "Error loading growth chart data."
-  },
-  "explainer": "Los siguientes ejemplos demuestran algunas características clave del marco O3",
-  "growthChart": {
-    "axisHeight": "Height",
-    "axisMonths": "Age (Months)",
-    "axisWeight": "Weight (kg)",
-    "axisYears": "Age (Years)",
-    "height": "Height",
-    "title": "Child Growth Chart",
-    "weight": "Weight"
-  },
-  "loading": "Loading...",
-  "welcomeText": "Bienvenido a la aplicación Plantilla O3"
+  "genderPreselected": "El género está preseleccionado según el perfil",
+  "growthChart": "Gráfico de Crecimiento",
+  "noChartDataAvailable": "No hay datos de gráfico disponibles",
+  "print": "Imprimir",
+  "updating": "Actualizando...",
+  "Year": "Año",
+  "Years": "Años"
 }
