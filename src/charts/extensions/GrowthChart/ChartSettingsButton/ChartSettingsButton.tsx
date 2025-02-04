@@ -14,9 +14,10 @@ interface ChartSettingsButtonProps {
 
 export const ChartSettingsButton = ({ category, dataset, gender }: ChartSettingsButtonProps) => {
   const { t } = useTranslation();
-
+  const firstName = 'prueba';
+  const lastName = 'prueba';
   const handlePrintDocument = () => {
-    PrintDocument({ category, dataset, gender });
+    PrintDocument({ category, dataset, gender, firstName, lastName });
   };
 
   return (
