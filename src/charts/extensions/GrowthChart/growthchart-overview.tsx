@@ -1,18 +1,20 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { differenceInMonths, differenceInWeeks } from 'date-fns';
+
+import { DataTableSkeleton, InlineLoading, Button } from '@carbon/react';
+import { Printer } from '@carbon/react/icons';
+import { CardHeader, EmptyState, ErrorState } from '@openmrs/esm-patient-common-lib';
+
 import { type ChartData, type MeasurementData } from '../../../types/chartDataTypes';
 import { useCalculateMinMaxValues } from '../../../utils/Hooks/Calculations';
 import { useChartDataForGender } from '../../../utils/Sorting';
 import { useAppropriateChartData } from '../../../utils/Hooks/Calculations/useAppropriateChartData';
 import { useVitalsAndBiometrics } from '../../../utils/DataFetching/Hooks';
 import { usePatientBirthdateAndGender } from '../../../utils/DataFetching/Hooks';
+
 import { ChartSelector } from './GrowthChartSelector/ChartSelector';
 import { GrowthChartBuilder } from './GrowthChartBuilder/GrowthChartBuilder';
-
-import { DataTableSkeleton, InlineLoading, Button } from '@carbon/react';
-import { Printer } from '@carbon/react/icons';
-import { CardHeader, EmptyState, ErrorState } from '@openmrs/esm-patient-common-lib';
 
 import styles from './growthchart-overview.scss';
 
@@ -23,9 +25,14 @@ interface GrowthChartProps {
 
 const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }) => {
   const { t } = useTranslation();
+  // Título que se usa en varios lugares (error, cabecera, etc.)
+  const headerTitle = t('growthChart', 'Growth Chart');
+
+  // Lógica de estado local
   const [defaultIndicatorError, setDefaultIndicatorError] = useState(false);
   const [genderParse, setGenderParser] = useState('');
 
+  // Hooks para cargar datos del paciente
   const { gender: rawGender, birthdate, isLoading, error } = usePatientBirthdateAndGender(patientUuid);
 
   useEffect(() => {
@@ -34,31 +41,30 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
     }
   }, [rawGender, error, isLoading]);
 
+  // Chart data filtrado según género
   const { chartDataForGender } = useChartDataForGender({
-    gender: genderParse, // Valor por defecto seguro
-    chartData: config || {}, // Asegurar objeto vacío si es undefined
+    gender: genderParse,
+    chartData: config || {},
   });
 
-  // 3. Obtener observaciones médicas con tipo explícito
+  // Observaciones (vitals/biometrics)
   const { data: rawObservations = [], isLoading: isValidating } = useVitalsAndBiometrics(patientUuid, 'both');
-
   const observations: MeasurementData[] = rawObservations.map((obs) => ({
     ...obs,
     eventDate: obs.eventDate.toISOString(),
   }));
 
-  // 5. Cálculos de edad con fecha de nacimiento segura
+  // Calcular edad con date-fns
   const safeBirthdate = birthdate || new Date().toISOString();
   const dateOfBirth = useMemo(() => new Date(safeBirthdate), [safeBirthdate]);
   const childAgeInWeeks = useMemo(() => differenceInWeeks(new Date(), dateOfBirth), [dateOfBirth]);
   const childAgeInMonths = useMemo(() => differenceInMonths(new Date(), dateOfBirth), [dateOfBirth]);
 
-  // 6. Definir indicadores por defecto
+  // Indicador/categoría de gráfico por defecto
   const defaultIndicator = Object.keys(chartDataForGender || {})[0] || '';
+  const isPercentiles = true;
 
-  const isPercentiles = true; // Asumiendo un valor por defecto si no está definido en otro lugar
-
-  // 7. Selección de categoría/dataset con valores por defecto
+  // useAppropriateChartData: Retorna categoría y dataset “seleccionados”
   const {
     selectedCategory,
     selectedDataset,
@@ -73,85 +79,95 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
     childAgeInMonths,
   );
 
-  // 9. Cálculo de valores del dataset con protección completa
+  // Sacamos el entry (los valores en sí) del chart
   const dataSetEntry = chartDataForGender[selectedCategory]?.datasets?.[selectedDataset];
-
   const dataSetValues = isPercentiles
     ? (dataSetEntry?.percentileDatasetValues ?? [])
     : (dataSetEntry?.zScoreDatasetValues ?? []);
 
+  // Min/max en Y
   const { min = 0, max = 100 } = useCalculateMinMaxValues(dataSetValues);
   const [minDataValue, maxDataValue] = useMemo(() => [Math.max(0, Math.floor(min)), Math.ceil(max)], [min, max]);
 
-  if (isLoading) {
-    return <div className="text-blue-500">{t('loading', 'Loading...')}</div>;
-  }
-
-  if (error) {
-    return <div className="text-red-500">{t('errorLoadingData', 'Error loading data')}</div>;
-  }
-
-  if (!chartDataForGender) {
-    return <div className="text-red-500">{t('noChartData', 'No chart data available')}</div>;
-  }
-
-  if (!dataSetEntry) {
-    return <div className="text-red-500">{t('no dataSetEntry', 'No data set available')}</div>;
-  }
-
-  if (dataSetValues.length === 0) {
-    return <div className="text-red-500">{t('emptyDataSet', 'Data set is empty')}</div>;
-  }
-
+  // ---- Manejo de estados OpenMRS-lik
   return (
-    <div className={styles.widgetCard}>
-      <CardHeader title={t('growthChart', 'Growth Chart')}>
-        <div className={styles.backgroundDataFetchingIndicator}>
-          {isValidating ? <InlineLoading description={t('updating', 'Updating...')} /> : null}
-        </div>
-        <div className={styles.chartHeaderActionItems}>
-          <Button
-            kind="ghost"
-            renderIcon={Printer}
-            iconDescription={t('print', 'Print')}
-            onClick={() => window.print()} // Ejemplo de print
-          >
-            {t('print', 'Print')}
-          </Button>
-        </div>
-      </CardHeader>
+    <>
+      {(() => {
+        // 1. Loading => Skeleton
+        if (isLoading) {
+          return <DataTableSkeleton role="progressbar" zebra={false} />;
+        }
 
-      <div className="p-4">
-        <div className="flex justify-between px-4">
-          <ChartSelector
-            category={selectedCategory}
-            dataset={selectedDataset}
-            setCategory={setCategory}
-            setDataset={setDataset}
-            chartData={chartDataForGender}
-            isDisabled={!!genderParse}
-            gender={genderParse}
-            setGender={setGenderParser}
-          />
-        </div>
+        // 2. Error => ErrorState
+        if (error) {
+          return <ErrorState error={error} headerTitle={headerTitle} />;
+        }
 
-        <div className="mt-4">
-          <GrowthChartBuilder
-            measurementData={observations}
-            datasetValues={dataSetValues}
-            datasetMetadata={
-              dataSetEntry?.metadata ?? { chartLabel: '', yAxisLabel: '', xAxisLabel: '', range: { start: 0, end: 0 } }
-            }
-            yAxisValues={{ minDataValue, maxDataValue }}
-            keysDataSet={Object.keys(dataSetValues[0] ?? {})}
-            dateOfBirth={dateOfBirth}
-            category={selectedCategory}
-            dataset={selectedDataset}
-            isPercentiles={isPercentiles}
-          />
-        </div>
-      </div>
-    </div>
+        // 3. Sin dataset seleccionado o sin datos => EmptyState
+        if (!selectedDataset || !dataSetEntry || !dataSetValues.length) {
+          return (
+            <EmptyState displayText={t('noChartDataAvailable', 'No chart data available')} headerTitle={headerTitle} />
+          );
+        }
+
+        // 4. Render principal (Card con GrowthChart)
+        return (
+          <div className={styles.widgetCard}>
+            <CardHeader title={headerTitle}>
+              <div className={styles.backgroundDataFetchingIndicator}>
+                {isValidating ? <InlineLoading description={t('updating', 'Updating...')} /> : null}
+              </div>
+              <div className={styles.chartHeaderActionItems}>
+                <Button
+                  kind="ghost"
+                  renderIcon={Printer}
+                  iconDescription={t('print', 'Print')}
+                  onClick={() => window.print()}
+                >
+                  {t('print', 'Print')}
+                </Button>
+              </div>
+            </CardHeader>
+
+            <div className="p-4">
+              <div className="flex justify-between px-4">
+                <ChartSelector
+                  category={selectedCategory}
+                  dataset={selectedDataset}
+                  setCategory={setCategory}
+                  setDataset={setDataset}
+                  chartData={chartDataForGender}
+                  isDisabled={!!genderParse}
+                  gender={genderParse}
+                  setGender={setGenderParser}
+                />
+              </div>
+
+              <div className="mt-4">
+                <GrowthChartBuilder
+                  measurementData={observations}
+                  datasetValues={dataSetValues}
+                  datasetMetadata={
+                    dataSetEntry?.metadata ?? {
+                      chartLabel: '',
+                      yAxisLabel: '',
+                      xAxisLabel: '',
+                      range: { start: 0, end: 0 },
+                    }
+                  }
+                  yAxisValues={{ minDataValue, maxDataValue }}
+                  keysDataSet={Object.keys(dataSetValues[0] ?? {})}
+                  dateOfBirth={dateOfBirth}
+                  category={selectedCategory}
+                  dataset={selectedDataset}
+                  isPercentiles={isPercentiles}
+                />
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+    </>
   );
 };
 
