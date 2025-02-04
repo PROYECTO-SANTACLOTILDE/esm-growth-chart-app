@@ -32,7 +32,7 @@ export const configSchema = {
       _type: Type.UUID,
       _default: '5089AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
     },
-    vitalSignsConceptSetUuid: {
+    growthMeasurementConceptSetUuid: {
       _type: Type.UUID,
       _default: '1114AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',
     },
@@ -53,6 +53,6 @@ export interface ConfigObjectWithUuids {
     headCircumferenceUuid: string;
     heightUuid: string;
     weightUuid: string;
-    vitalSignsConceptSetUuid: string;
+    growthMeasurementConceptSetUuid: string;
   };
 }
