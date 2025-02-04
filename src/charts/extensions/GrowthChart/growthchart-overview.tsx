@@ -15,7 +15,7 @@ import { DataTableSkeleton, InlineLoading, Button } from '@carbon/react';
 import { Printer } from '@carbon/react/icons';
 import { CardHeader, EmptyState, ErrorState } from '@openmrs/esm-patient-common-lib';
 
-import styles from './growthchart-overview.scss'; // tu hoja de estilos o CSS module
+import styles from './growthchart-overview.scss';
 
 interface GrowthChartProps {
   patientUuid: string;
@@ -84,52 +84,33 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   const { min = 0, max = 100 } = useCalculateMinMaxValues(dataSetValues);
   const [minDataValue, maxDataValue] = useMemo(() => [Math.max(0, Math.floor(min)), Math.ceil(max)], [min, max]);
 
-  // 10. Manejo de estados de carga y error mejorado
   if (isLoading) {
     return <div className="text-blue-500">{t('loading', 'Loading...')}</div>;
   }
 
   if (error) {
-    // Case 2: An error occurred during data fetching
     return <div className="text-red-500">{t('errorLoadingData', 'Error loading data')}</div>;
   }
 
   if (!chartDataForGender) {
-    // Manejo del caso cuando no hay datos de gráfico disponibles
     return <div className="text-red-500">{t('noChartData', 'No chart data available')}</div>;
   }
 
   if (!dataSetEntry) {
-    // Manejo del caso cuando no hay datos de gráfico disponibles
     return <div className="text-red-500">{t('no dataSetEntry', 'No data set available')}</div>;
   }
 
   if (dataSetValues.length === 0) {
-    // Manejo del caso cuando el conjunto de datos está vacío
     return <div className="text-red-500">{t('emptyDataSet', 'Data set is empty')}</div>;
   }
 
-  // 11. Renderizado seguro con valores por defecto
   return (
     <div className={styles.widgetCard}>
-      {/* -- Cabecera del Card -- */}
       <CardHeader title={t('growthChart', 'Growth Chart')}>
-        {/* Indicador de background data fetching */}
         <div className={styles.backgroundDataFetchingIndicator}>
           {isValidating ? <InlineLoading description={t('updating', 'Updating...')} /> : null}
         </div>
-        {/* Acciones en la cabecera */}
         <div className={styles.chartHeaderActionItems}>
-          {/* Si quisieras un switch “tabla / gráfica”:
-           <ContentSwitcher onChange={...} size="sm">
-             <IconSwitch name="tableView" text="Table view">
-               <Table size={16} />
-             </IconSwitch>
-             <IconSwitch name="chartView" text="Chart view">
-               <Analytics size={16} />
-             </IconSwitch>
-           </ContentSwitcher>
-        */}
           <Button
             kind="ghost"
             renderIcon={Printer}
@@ -141,7 +122,6 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
         </div>
       </CardHeader>
 
-      {/* -- Cuerpo con tu selector de categorías, etc. -- */}
       <div className="p-4">
         <div className="flex justify-between px-4">
           <ChartSelector
@@ -154,11 +134,8 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
             gender={genderParse}
             setGender={setGenderParser}
           />
-
-          <ChartSettingsButton category={selectedCategory} dataset={selectedDataset} gender={genderParse} />
         </div>
 
-        {/* -- Aquí va tu componente de la gráfica -- */}
         <div className="mt-4">
           <GrowthChartBuilder
             measurementData={observations}
