@@ -26,8 +26,8 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
 
   useEffect(() => {
     setGenderParser(rawGender);
-    console.log('rawGender', isLoading, error);
-  }, []);
+    console.log('rawGender', isLoading, error, birthdate);
+  }, [error, isLoading, rawGender]);
 
   // 4. Procesar datos del gráfico con protección contra undefined
   const { chartDataForGender = {} } = useChartDataForGender({

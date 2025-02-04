@@ -24,6 +24,7 @@ export const usePatientBirthdateAndGender = (patientUuid) => {
 
   const rawGender = data?.data.gender ?? GenderCodes.CGC_Female;
 
+  console.log('rawGender', data);
 
   return {
     gender: rawGender?.toUpperCase(),
