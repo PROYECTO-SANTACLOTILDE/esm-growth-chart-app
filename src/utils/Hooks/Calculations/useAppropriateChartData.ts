@@ -16,7 +16,9 @@ export const useAppropriateChartData = (
   selectDatasetForCategoryRef.current = (category: keyof typeof CategoryCodes) => {
     const { datasets } = chartDataForGender[category];
 
-    const isMeasurementType = (xAxis: string) => Object.values(MeasurementTypeCodesLabel).includes(xAxis);
+    const isMeasurementType = (xAxis: string) =>
+      (Object.values(MeasurementTypeCodesLabel) as Array<'Head circumference' | 'Length' | 'Height' | 'Weight'>)
+        .includes(xAxis as any);
 
     const isWeeksInRange = (xAxis: string) => xAxis === TimeUnitCodes.weeks && childAgeInWeeks < 13;
 

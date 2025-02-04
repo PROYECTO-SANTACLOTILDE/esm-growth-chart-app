@@ -49,31 +49,31 @@ export interface ChartData {
 }
 
 export const TimeUnitCodes = Object.freeze({
-  years: t('Years'),
-  months: t('Months'),
-  weeks: t('Weeks'),
+  years: 'Years',
+  months: 'Months',
+  weeks: 'Weeks',
 });
 
 export const timeUnitData: { [key: string]: TimeUnitData } = {
   [TimeUnitCodes.years]: {
-    singular: t('year'),
-    plural: t('years'),
+    singular: 'year',
+    plural: 'years',
   },
   [TimeUnitCodes.months]: {
-    singular: t('month'),
-    plural: t('months'),
+    singular: 'month',
+    plural: 'months',
   },
   [TimeUnitCodes.weeks]: {
-    singular: t('week'),
-    plural: t('weeks'),
+    singular: 'week',
+    plural: 'weeks',
   },
 };
 
 export const MeasurementTypeCodesLabel = Object.freeze({
-  headCircumference: t('Head circumference'),
-  length: t('Length'),
-  height: t('Height'),
-  weight: t('Weight'),
+  headCircumference: 'Head circumference',
+  length: 'Length',
+  height: 'Height',
+  weight: 'Weight',
 });
 
 export const MeasurementTypeCodes = Object.freeze({
@@ -94,10 +94,10 @@ export const unitCodes = Object.freeze({
 });
 
 export const CategoryLabels = Object.freeze({
-  hcfa: t('Head circumference for age'),
-  lhfa: t('Length/height for age'),
-  wfa: t('Weight for age'),
-  wflh: t('Weight for length/height'),
+  hcfa: 'Head circumference for age',
+  lhfa: 'Length/height for age',
+  wfa: 'Weight for age',
+  wflh: 'Weight for length/height',
 });
 
 const CategoryToYUnitLabel = Object.freeze({
@@ -141,10 +141,10 @@ export const CategoryToYUnit = Object.freeze({
 });
 
 export const DataSetLabels = Object.freeze({
-  y_0_5: t('0 to 5 years'),
-  w_0_13: t('0 to 13 weeks'),
-  y_0_2: t('0 to 2 years'),
-  y_2_5: t('2 to 5 years'),
+  y_0_5: '0 to 5 years',
+  w_0_13: '0 to 13 weeks',
+  y_0_2: '0 to 2 years',
+  y_2_5: '2 to 5 years',
 });
 
 export const ChartLabelCodes = Object.freeze({
@@ -180,6 +180,6 @@ export const ChartCodes = Object.freeze({
 });
 
 export const GenderCodes = Object.freeze({
-  CGC_Male: t('Boy'),
-  CGC_Female: t('Girl'),
+  CGC_Male: 'M',
+  CGC_Female: 'F',
 });

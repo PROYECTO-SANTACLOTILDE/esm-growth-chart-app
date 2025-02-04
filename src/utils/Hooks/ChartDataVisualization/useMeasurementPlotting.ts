@@ -7,6 +7,7 @@ export interface MeasurementDataEntry {
     [key: string]: number | string;
   };
 }
+type DataSetLabelValues = (typeof DataSetLabels)[keyof typeof DataSetLabels];
 
 export const useMeasurementPlotting = (
   measurementData: MeasurementDataEntry[] | undefined,
@@ -44,8 +45,8 @@ export const useMeasurementPlotting = (
     });
   };
 
-  const validDatasets = Object.values(DataSetLabels);
-  if (validDatasets.includes(dataset)) {
+  const validDatasets = Object.values(DataSetLabels) as DataSetLabelValues[];
+  if (validDatasets.includes(dataset as DataSetLabelValues)) {
     measurementData.forEach(processEntry);
 
     if (dataset !== DataSetLabels.y_2_5) {
