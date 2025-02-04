@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { differenceInMonths, differenceInWeeks } from 'date-fns';
-import { type ChartData, GenderCodes, type MeasurementData } from '../../../types/chartDataTypes';
+import { type ChartData, type MeasurementData } from '../../../types/chartDataTypes';
 import { useCalculateMinMaxValues } from '../../../utils/Hooks/Calculations';
 import { useChartDataForGender } from '../../../utils/Sorting';
 import { useAppropriateChartData } from '../../../utils/Hooks/Calculations/useAppropriateChartData';
@@ -71,6 +71,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
 
   // 9. Cálculo de valores del dataset con protección completa
   const dataSetEntry = chartDataForGender[selectedCategory]?.datasets?.[selectedDataset];
+
   const dataSetValues = isPercentiles
     ? (dataSetEntry?.percentileDatasetValues ?? [])
     : (dataSetEntry?.zScoreDatasetValues ?? []);
@@ -83,8 +84,29 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
     return <div className="text-blue-500">{t('loading', 'Loading...')}</div>;
   }
 
-  if (error || !chartDataForGender || dataSetValues.length === 0) {
+  if (isLoading) {
+    // Case 1: Data is still loading
+    return <div className="text-blue-500">{t('loading', 'Loading...')}</div>;
+  }
+
+  if (error) {
+    // Case 2: An error occurred during data fetching
+    return <div className="text-red-500">{t('errorLoadingData', 'Error loading data')}</div>;
+  }
+
+  if (!chartDataForGender) {
+    // Manejo del caso cuando no hay datos de gráfico disponibles
     return <div className="text-red-500">{t('noChartData', 'No chart data available')}</div>;
+  }
+
+  if (!dataSetEntry) {
+    // Manejo del caso cuando no hay datos de gráfico disponibles
+    return <div className="text-red-500">{t('no dataSetEntry', 'No data set available')}</div>;
+  }
+
+  if (dataSetValues.length === 0) {
+    // Manejo del caso cuando el conjunto de datos está vacío
+    return <div className="text-red-500">{t('emptyDataSet', 'Data set is empty')}</div>;
   }
 
   // 11. Renderizado seguro con valores por defecto
