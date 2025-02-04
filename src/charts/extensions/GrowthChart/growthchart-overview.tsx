@@ -10,8 +10,8 @@ import { type ChartData, type MeasurementData } from '../../../types/chartDataTy
 import { useCalculateMinMaxValues } from '../../../utils/Hooks/Calculations';
 import { useChartDataForGender } from '../../../utils/Sorting';
 import { useAppropriateChartData } from '../../../utils/Hooks/Calculations/useAppropriateChartData';
-import { useVitalsAndBiometrics } from '../../../utils/DataFetching/Hooks';
-import { usePatientBirthdateAndGender } from '../../../utils/DataFetching/Hooks';
+import { useVitalsAndBiometrics } from '../../../utils/Hooks/DataFetching';
+import { usePatientBirthdateAndGender } from '../../../utils/Hooks/DataFetching';
 import { chartData } from '../../../DataSets/WhoStandardDataSets/ChartData';
 
 import { ChartSelector } from './GrowthChartSelector/ChartSelector';
