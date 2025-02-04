@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import GrowthChartOverview from './charts/extensions/GrowthChart/growthchart-overview';
-import { useConfig, type Patient } from '@openmrs/esm-framework';
+import { useConfig } from '@openmrs/esm-framework';
 
 const Root: React.FC = () => {
   const { t } = useTranslation();
