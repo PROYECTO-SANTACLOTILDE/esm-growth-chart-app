@@ -125,13 +125,9 @@ export const GrowthChartBuilder = ({
 
   return (
     <div className="aspect-video min-h-[400px]" id="divToPrint">
-      <AutoSizer>
-        {({ height, width }: { height: number; width: number }) => (
-          <div style={{ height, width }}>
-            <Line data={data} options={options} />
-          </div>
-        )}
-      </AutoSizer>
+      <div>
+        <Line data={data} options={options} />
+      </div>
     </div>
   );
 };
