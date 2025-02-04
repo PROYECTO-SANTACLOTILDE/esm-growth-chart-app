@@ -1,16 +1,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { differenceInMonths, differenceInWeeks } from 'date-fns';
-import { Layer, Tag } from '@carbon/react';
-import { GrowthChartBuilder } from './GrowthChartBuilder';
-import { ChartSelector } from './GrowthChartSelector';
 import { type ChartData, GenderCodes, type MeasurementData } from '../../../types/chartDataTypes';
 import { useCalculateMinMaxValues } from '../../../utils/Hooks/Calculations';
-import { ChartSettingsButton } from './ChartSettingsButton';
 import { useChartDataForGender } from '../../../utils/Sorting';
 import { useAppropriateChartData } from '../../../utils/Hooks/Calculations/useAppropriateChartData';
 import { useVitalsAndBiometrics } from '../../../utils/DataFetching/Hooks';
 import { usePatientBirthdateAndGender } from '../../../utils/DataFetching/Hooks';
+import { ChartSelector } from './GrowthChartSelector/ChartSelector';
+import { ChartSettingsButton } from './ChartSettingsButton/ChartSettingsButton';
+import { GrowthChartBuilder } from './GrowthChartBuilder/GrowthChartBuilder';
 
 interface GrowthChartProps {
   patientUuid: string;
@@ -29,7 +28,11 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   const [gender, setGender] = useState(() => patientGender.toUpperCase());
 
   // 3. Obtener observaciones médicas con tipo explícito
-  const { data: observations = [] } = useVitalsAndBiometrics(patientUuid, 'both') as { data: MeasurementData[] };
+  const { data: rawObservations = [] } = useVitalsAndBiometrics(patientUuid, 'both');
+  const observations: MeasurementData[] = rawObservations.map((obs) => ({
+    ...obs,
+    eventDate: obs.eventDate.toISOString(),
+  }));
 
   // 4. Procesar datos del gráfico con protección contra undefined
   const { chartDataForGender = {} } = useChartDataForGender({
@@ -43,10 +46,14 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   const childAgeInWeeks = useMemo(() => differenceInWeeks(new Date(), dateOfBirth), [dateOfBirth]);
   const childAgeInMonths = useMemo(() => differenceInMonths(new Date(), dateOfBirth), [dateOfBirth]);
 
-  // 6. Selección de categoría/dataset con valores por defecto
+  // 6. Definir indicadores por defecto
+  const defaultIndicator = Object.keys(chartDataForGender)[0] || '';
+  const isPercentiles = true; // Asumiendo un valor por defecto si no está definido en otro lugar
+
+  // 7. Selección de categoría/dataset con valores por defecto
   const {
-    selectedCategory = Object.keys(chartDataForGender)[0],
-    selectedDataset = 'default',
+    selectedCategory,
+    selectedDataset,
     setSelectedCategory: setCategory,
     setSelectedDataset: setDataset,
   } = useAppropriateChartData(
@@ -58,15 +65,15 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
     childAgeInMonths,
   );
 
-  // 7. Sincronización segura del género
+  // 8. Sincronización segura del género
   useEffect(() => {
     const normalizedGender = patientGender.toUpperCase();
-    if (Object.values(GenderCodes).includes(normalizedGender as GenderCodes)) {
+    if (Object.values(GenderCodes).includes(normalizedGender)) {
       setGender(normalizedGender);
     }
   }, [patientGender]);
 
-  // 8. Cálculo de valores del dataset con protección completa
+  // 9. Cálculo de valores del dataset con protección completa
   const dataSetEntry = chartDataForGender[selectedCategory]?.datasets?.[selectedDataset];
   const dataSetValues = isPercentiles
     ? (dataSetEntry?.percentileDatasetValues ?? [])
@@ -75,22 +82,18 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   const { min = 0, max = 100 } = useCalculateMinMaxValues(dataSetValues);
   const [minDataValue, maxDataValue] = useMemo(() => [Math.max(0, Math.floor(min)), Math.ceil(max)], [min, max]);
 
-  // 9. Manejo de estados de carga y error mejorado
+  // 10. Manejo de estados de carga y error mejorado
   if (isLoading) {
-    return <Tag type="blue">{t('loading', 'Loading...')}</Tag>;
+    return <div className="text-blue-500">{t('loading', 'Loading...')}</div>;
   }
 
   if (error || !chartDataForGender || dataSetValues.length === 0) {
-    return (
-      <Layer>
-        <Tag type="red">{t('noChartData', 'No chart data available')}</Tag>
-      </Layer>
-    );
+    return <div className="text-red-500">{t('noChartData', 'No chart data available')}</div>;
   }
 
-  // 10. Renderizado seguro con valores por defecto
+  // 11. Renderizado seguro con valores por defecto
   return (
-    <Layer>
+    <div className="p-4">
       <div className="flex justify-between px-4">
         <ChartSelector
           category={selectedCategory}
@@ -103,19 +106,16 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
           setGender={setGender}
         />
 
-        <ChartSettingsButton
-          category={selectedCategory}
-          dataset={selectedDataset}
-          gender={gender}
-          patientUuid={patientUuid}
-        />
+        <ChartSettingsButton category={selectedCategory} dataset={selectedDataset} gender={gender} />
       </div>
 
-      <Layer>
+      <div className="mt-4">
         <GrowthChartBuilder
           measurementData={observations}
           datasetValues={dataSetValues}
-          datasetMetadata={dataSetEntry?.metadata ?? {}}
+          datasetMetadata={
+            dataSetEntry?.metadata ?? { chartLabel: '', yAxisLabel: '', xAxisLabel: '', range: { start: 0, end: 0 } }
+          }
           yAxisValues={{ minDataValue, maxDataValue }}
           keysDataSet={Object.keys(dataSetValues[0] ?? {})}
           dateOfBirth={dateOfBirth}
@@ -123,8 +123,8 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
           dataset={selectedDataset}
           isPercentiles={isPercentiles}
         />
-      </Layer>
-    </Layer>
+      </div>
+    </div>
   );
 };
 
