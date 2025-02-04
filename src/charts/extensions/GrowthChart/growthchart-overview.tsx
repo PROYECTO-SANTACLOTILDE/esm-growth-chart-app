@@ -11,6 +11,12 @@ import { ChartSelector } from './GrowthChartSelector/ChartSelector';
 import { ChartSettingsButton } from './ChartSettingsButton/ChartSettingsButton';
 import { GrowthChartBuilder } from './GrowthChartBuilder/GrowthChartBuilder';
 
+import { DataTableSkeleton, InlineLoading, Button } from '@carbon/react';
+import { Printer } from '@carbon/react/icons';
+import { CardHeader, EmptyState, ErrorState } from '@openmrs/esm-patient-common-lib';
+
+import styles from './growthchart-overview.scss'; // tu hoja de estilos o CSS module
+
 interface GrowthChartProps {
   patientUuid: string;
   config: ChartData;
@@ -21,23 +27,22 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   const [defaultIndicatorError, setDefaultIndicatorError] = useState(false);
   const [genderParse, setGenderParser] = useState('');
 
-  // 1. Obtener datos del paciente con protección contra valores nulos/undefined
   const { gender: rawGender, birthdate, isLoading, error } = usePatientBirthdateAndGender(patientUuid);
 
   useEffect(() => {
     if (rawGender && typeof rawGender === 'string') {
-      setGenderParser(rawGender.toUpperCase()); // Normalizar a mayúsculas
+      setGenderParser(rawGender.toUpperCase());
     }
   }, [rawGender, error, isLoading]);
 
-  // 4. Procesar datos del gráfico con protección contra undefined
   const { chartDataForGender } = useChartDataForGender({
     gender: genderParse, // Valor por defecto seguro
     chartData: config || {}, // Asegurar objeto vacío si es undefined
   });
 
   // 3. Obtener observaciones médicas con tipo explícito
-  const { data: rawObservations = [] } = useVitalsAndBiometrics(patientUuid, 'both');
+  const { data: rawObservations = [], isLoading: isValidating } = useVitalsAndBiometrics(patientUuid, 'both');
+
   const observations: MeasurementData[] = rawObservations.map((obs) => ({
     ...obs,
     eventDate: obs.eventDate.toISOString(),
@@ -84,11 +89,6 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
     return <div className="text-blue-500">{t('loading', 'Loading...')}</div>;
   }
 
-  if (isLoading) {
-    // Case 1: Data is still loading
-    return <div className="text-blue-500">{t('loading', 'Loading...')}</div>;
-  }
-
   if (error) {
     // Case 2: An error occurred during data fetching
     return <div className="text-red-500">{t('errorLoadingData', 'Error loading data')}</div>;
@@ -111,36 +111,69 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
 
   // 11. Renderizado seguro con valores por defecto
   return (
-    <div className="p-4">
-      <div className="flex justify-between px-4">
-        <ChartSelector
-          category={selectedCategory}
-          dataset={selectedDataset}
-          setCategory={setCategory}
-          setDataset={setDataset}
-          chartData={chartDataForGender}
-          isDisabled={!!genderParse}
-          gender={genderParse}
-          setGender={setGenderParser}
-        />
+    <div className={styles.widgetCard}>
+      {/* -- Cabecera del Card -- */}
+      <CardHeader title={t('growthChart', 'Growth Chart')}>
+        {/* Indicador de background data fetching */}
+        <div className={styles.backgroundDataFetchingIndicator}>
+          {isValidating ? <InlineLoading description={t('updating', 'Updating...')} /> : null}
+        </div>
+        {/* Acciones en la cabecera */}
+        <div className={styles.chartHeaderActionItems}>
+          {/* Si quisieras un switch “tabla / gráfica”:
+           <ContentSwitcher onChange={...} size="sm">
+             <IconSwitch name="tableView" text="Table view">
+               <Table size={16} />
+             </IconSwitch>
+             <IconSwitch name="chartView" text="Chart view">
+               <Analytics size={16} />
+             </IconSwitch>
+           </ContentSwitcher>
+        */}
+          <Button
+            kind="ghost"
+            renderIcon={Printer}
+            iconDescription={t('print', 'Print')}
+            onClick={() => window.print()} // Ejemplo de print
+          >
+            {t('print', 'Print')}
+          </Button>
+        </div>
+      </CardHeader>
 
-        <ChartSettingsButton category={selectedCategory} dataset={selectedDataset} gender={genderParse} />
-      </div>
+      {/* -- Cuerpo con tu selector de categorías, etc. -- */}
+      <div className="p-4">
+        <div className="flex justify-between px-4">
+          <ChartSelector
+            category={selectedCategory}
+            dataset={selectedDataset}
+            setCategory={setCategory}
+            setDataset={setDataset}
+            chartData={chartDataForGender}
+            isDisabled={!!genderParse}
+            gender={genderParse}
+            setGender={setGenderParser}
+          />
 
-      <div className="mt-4">
-        <GrowthChartBuilder
-          measurementData={observations}
-          datasetValues={dataSetValues}
-          datasetMetadata={
-            dataSetEntry?.metadata ?? { chartLabel: '', yAxisLabel: '', xAxisLabel: '', range: { start: 0, end: 0 } }
-          }
-          yAxisValues={{ minDataValue, maxDataValue }}
-          keysDataSet={Object.keys(dataSetValues[0] ?? {})}
-          dateOfBirth={dateOfBirth}
-          category={selectedCategory}
-          dataset={selectedDataset}
-          isPercentiles={isPercentiles}
-        />
+          <ChartSettingsButton category={selectedCategory} dataset={selectedDataset} gender={genderParse} />
+        </div>
+
+        {/* -- Aquí va tu componente de la gráfica -- */}
+        <div className="mt-4">
+          <GrowthChartBuilder
+            measurementData={observations}
+            datasetValues={dataSetValues}
+            datasetMetadata={
+              dataSetEntry?.metadata ?? { chartLabel: '', yAxisLabel: '', xAxisLabel: '', range: { start: 0, end: 0 } }
+            }
+            yAxisValues={{ minDataValue, maxDataValue }}
+            keysDataSet={Object.keys(dataSetValues[0] ?? {})}
+            dateOfBirth={dateOfBirth}
+            category={selectedCategory}
+            dataset={selectedDataset}
+            isPercentiles={isPercentiles}
+          />
+        </div>
       </div>
     </div>
   );
