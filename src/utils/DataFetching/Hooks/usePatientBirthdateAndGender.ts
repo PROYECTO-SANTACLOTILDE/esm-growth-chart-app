@@ -1,5 +1,6 @@
 import useSWRImmutable from 'swr/immutable';
 import { openmrsFetch, restBaseUrl } from '@openmrs/esm-framework';
+import { GenderCodes } from '../../../types/chartDataTypes';
 
 export interface PatientInfo {
   uuid: string;
@@ -21,9 +22,11 @@ export const usePatientBirthdateAndGender = (patientUuid) => {
     openmrsFetch
   );
 
+  const rawGender = data?.data.gender ?? GenderCodes.CGC_Female;
+
 
   return {
-    gender: data?.data.gender ?? '',
+    gender: rawGender?.toUpperCase(),
     birthdate: data?.data.birthdate ?? '',
     birthdateEstimated: data?.data.birthdateEstimated ?? false,
     isLoading,

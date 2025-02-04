@@ -19,13 +19,21 @@ interface GrowthChartProps {
 const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }) => {
   const { t } = useTranslation();
   const [defaultIndicatorError, setDefaultIndicatorError] = useState(false);
+  const [genderParse, setGenderParser] = useState('');
 
   // 1. Obtener datos del paciente con protección contra valores nulos/undefined
   const { gender: rawGender, birthdate, isLoading, error } = usePatientBirthdateAndGender(patientUuid);
-  const patientGender = rawGender ?? GenderCodes.CGC_Female;
 
-  // 2. Estado para el género con valor inicial seguro
-  const [gender, setGender] = useState(() => patientGender.toUpperCase());
+  useEffect(() => {
+    setGenderParser(rawGender);
+    console.log('rawGender', isLoading, error);
+  }, []);
+
+  // 4. Procesar datos del gráfico con protección contra undefined
+  const { chartDataForGender = {} } = useChartDataForGender({
+    gender: genderParse,
+    chartData: config,
+  });
 
   // 3. Obtener observaciones médicas con tipo explícito
   const { data: rawObservations = [] } = useVitalsAndBiometrics(patientUuid, 'both');
@@ -33,12 +41,6 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
     ...obs,
     eventDate: obs.eventDate.toISOString(),
   }));
-
-  // 4. Procesar datos del gráfico con protección contra undefined
-  const { chartDataForGender = {} } = useChartDataForGender({
-    gender: patientGender,
-    chartData: config,
-  });
 
   // 5. Cálculos de edad con fecha de nacimiento segura
   const safeBirthdate = birthdate || new Date().toISOString();
@@ -59,19 +61,11 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   } = useAppropriateChartData(
     chartDataForGender,
     defaultIndicator,
-    gender,
+    genderParse,
     setDefaultIndicatorError,
     childAgeInWeeks,
     childAgeInMonths,
   );
-
-  // 8. Sincronización segura del género
-  useEffect(() => {
-    const normalizedGender = patientGender.toUpperCase();
-    if (Object.values(GenderCodes).includes(normalizedGender)) {
-      setGender(normalizedGender);
-    }
-  }, [patientGender]);
 
   // 9. Cálculo de valores del dataset con protección completa
   const dataSetEntry = chartDataForGender[selectedCategory]?.datasets?.[selectedDataset];
@@ -101,12 +95,12 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
           setCategory={setCategory}
           setDataset={setDataset}
           chartData={chartDataForGender}
-          isDisabled={!!patientGender}
-          gender={gender}
-          setGender={setGender}
+          isDisabled={!!genderParse}
+          gender={genderParse}
+          setGender={setGenderParser}
         />
 
-        <ChartSettingsButton category={selectedCategory} dataset={selectedDataset} gender={gender} />
+        <ChartSettingsButton category={selectedCategory} dataset={selectedDataset} gender={genderParse} />
       </div>
 
       <div className="mt-4">
