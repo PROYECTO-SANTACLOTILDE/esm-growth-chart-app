@@ -6,16 +6,16 @@ import annotationPlugin from 'chartjs-plugin-annotation';
 import AutoSizer from 'react-virtualized-auto-sizer';
 
 import {
-  type ChartDataTypes,
-  type CategoryToLabel,
-  MeasurementTypeCodes,
-  DataSetLabels,
   CategoryCodes,
+  type CategoryToLabel,
+  DataSetLabels,
+  MeasurementTypeCodes,
+  type ChartDataTypes,
 } from '../../../../types/chartDataTypes';
+
 import { GrowthChartAnnotations, AnnotateLineEnd } from '../../../../utils/ChartOptions';
 import { useMeasurementPlotting, useChartLines } from '../../../../utils/Hooks/ChartDataVisualization';
 import { ChartTooltip } from './ChartTooltip';
-
 interface GrowthChartBuilderProps extends ChartDataTypes {
   category: keyof typeof CategoryToLabel;
   dataset: string;
@@ -77,7 +77,6 @@ export const GrowthChartBuilder = ({
   // Anotaciones (líneas, áreas sombreadas, etc.)
   const annotations = GrowthChartAnnotations(ChartLinesData, datasetMetadata);
 
-  // Opciones de configuración
   const options: ChartOptions<'line'> = {
     elements: { point: { radius: 0, hoverRadius: 0 } },
     plugins: {

@@ -2,17 +2,15 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { differenceInMonths, differenceInWeeks } from 'date-fns';
 
-import { DataTableSkeleton, InlineLoading, Button } from '@carbon/react';
+import { Button, DataTableSkeleton, InlineLoading } from '@carbon/react';
 import { Printer } from '@carbon/react/icons';
 import { CardHeader, EmptyState, ErrorState } from '@openmrs/esm-patient-common-lib';
 
-import { type ChartData, type MeasurementData } from '../../../types/chartDataTypes';
-import { useCalculateMinMaxValues } from '../../../utils/Hooks/Calculations';
-import { useChartDataForGender } from '../../../utils/Sorting';
-import { useAppropriateChartData } from '../../../utils/Hooks/Calculations/useAppropriateChartData';
-import { useVitalsAndBiometrics } from '../../../utils/Hooks/DataFetching';
-import { usePatientBirthdateAndGender } from '../../../utils/Hooks/DataFetching';
 import { chartData } from '../../../DataSets/WhoStandardDataSets/ChartData';
+import { type ChartData, type MeasurementData } from '../../../types/chartDataTypes';
+import { useAppropriateChartData, useCalculateMinMaxValues } from '../../../utils/Hooks/Calculations';
+import { useChartDataForGender } from '../../../utils/Sorting';
+import { useVitalsAndBiometrics, usePatientBirthdateAndGender } from '../../../utils/Hooks/DataFetching';
 
 import { ChartSelector } from './GrowthChartSelector/ChartSelector';
 import { GrowthChartBuilder } from './GrowthChartBuilder/GrowthChartBuilder';
