@@ -1,9 +1,9 @@
 {
-  "name": "@duvet05/esm-template-app",
+  "name": "@duvet05/esm-growth-chart-app",
   "version": "1.0.0",
   "license": "MPL-2.0",
-  "description": "An OpenMRS seed application for building microfrontends",
-  "browser": "dist/openmrs-esm-template-app.js",
+  "description": "An OpenMRS O3 version of the growth chartjs",
+  "browser": "dist/openmrs-esm-growth-chart-app.js",
   "main": "src/index.ts",
   "source": true,
   "scripts": {
@@ -26,18 +26,19 @@
   ],
   "keywords": [
     "openmrs",
-    "microfrontends"
+    "microfrontends",
+    "growth-chart"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/openmrs/openmrs-esm-template-app.git"
+    "url": "git+https://github.com/PROYECTO-SANTACLOTILDE/esm-growth-chart-app.git"
   },
-  "homepage": "https://github.com/openmrs/openmrs-esm-template-app#readme",
+  "homepage": "https://github.com/PROYECTO-SANTACLOTILDE/esm-growth-chart-app#readme",
   "publishConfig": {
     "access": "public"
   },
   "bugs": {
-    "url": "https://github.com/openmrs/openmrs-esm-template-app/issues"
+    "url": "https://github.com/PROYECTO-SANTACLOTILDE/esm-growth-chart-app/issues"
   },
   "dependencies": {
     "@carbon/charts-react": "^1.22.8",

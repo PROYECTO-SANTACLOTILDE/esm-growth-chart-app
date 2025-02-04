@@ -1830,9 +1830,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@duvet05/esm-template-app@workspace:.":
+"@duvet05/esm-growth-chart-app@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@duvet05/esm-template-app@workspace:."
+  resolution: "@duvet05/esm-growth-chart-app@workspace:."
   dependencies:
     "@carbon/charts-react": "npm:^1.22.8"
     "@carbon/icons-react": "npm:^11.54.0"
