@@ -16,15 +16,11 @@ export const ChartSettingsButton = ({ category, dataset, gender }: ChartSettings
   const { t } = useTranslation();
 
   const handlePrintDocument = () => {
-    PrintDocument({
-      category,
-      dataset,
-      gender,
-    });
+    PrintDocument({ category, dataset, gender });
   };
 
   return (
-    <EllipsisButton data-testid="widget-profile-overflow-menu" kind="ghost" size="sm">
+    <EllipsisButton dataTest="widget-profile-overflow-menu" kind="ghost" size="sm">
       <OverflowMenuItem
         itemText={t('print', 'Print')}
         onClick={handlePrintDocument}
