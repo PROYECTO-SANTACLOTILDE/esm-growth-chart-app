@@ -7,14 +7,11 @@ const Root: React.FC = () => {
   const { t } = useTranslation();
   const config = useConfig();
 
-  const patientUuid = '8673ee4f-e2ab-4077-ba55-4980f408773e';
+  const patientUuid = '5f088298-da75-420a-8413-84dddefc8f66';
 
   return (
     <div className="bg-white w-screen flex m-0 p-0">
-      <GrowthChartOverview
-        patientUuid={patientUuid} // Pasamos el UUID hardcodeado
-        config={config}
-      />
+      <GrowthChartOverview patientUuid={patientUuid} config={config} />
     </div>
   );
 };
