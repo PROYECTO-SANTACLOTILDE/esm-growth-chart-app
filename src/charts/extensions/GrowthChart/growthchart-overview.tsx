@@ -12,6 +12,7 @@ import { useChartDataForGender } from '../../../utils/Sorting';
 import { useAppropriateChartData } from '../../../utils/Hooks/Calculations/useAppropriateChartData';
 import { useVitalsAndBiometrics } from '../../../utils/DataFetching/Hooks';
 import { usePatientBirthdateAndGender } from '../../../utils/DataFetching/Hooks';
+import { chartData } from '../../../DataSets/WhoStandardDataSets/ChartData';
 
 import { ChartSelector } from './GrowthChartSelector/ChartSelector';
 import { GrowthChartBuilder } from './GrowthChartBuilder/GrowthChartBuilder';
@@ -44,7 +45,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   // Chart data filtrado según género
   const { chartDataForGender } = useChartDataForGender({
     gender: genderParse,
-    chartData: config || {},
+    chartData: chartData || {},
   });
 
   // Observaciones (vitals/biometrics)
