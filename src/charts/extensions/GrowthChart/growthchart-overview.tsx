@@ -8,7 +8,6 @@ import { useAppropriateChartData } from '../../../utils/Hooks/Calculations/useAp
 import { useVitalsAndBiometrics } from '../../../utils/DataFetching/Hooks';
 import { usePatientBirthdateAndGender } from '../../../utils/DataFetching/Hooks';
 import { ChartSelector } from './GrowthChartSelector/ChartSelector';
-import { ChartSettingsButton } from './ChartSettingsButton/ChartSettingsButton';
 import { GrowthChartBuilder } from './GrowthChartBuilder/GrowthChartBuilder';
 
 import { DataTableSkeleton, InlineLoading, Button } from '@carbon/react';
