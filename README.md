@@ -1,46 +1,50 @@
-![Node.js CI](https://github.com/openmrs/openmrs-esm-template-app/workflows/Node.js%20CI/badge.svg)
+<h1 align="center">Welcome to @duvet05/esm-growth-chart 👋</h1>
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-1.0.0--alpha-blue.svg?cacheSeconds=2592000" />
+  <a href="https://github.com/PROYECTO-SANTACLOTILDE/esm-growth-chart-app#README.md" target="_blank">
+    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
+  </a>
+  <a href="https://github.com/openmrs/openmrs-esm-template-app/graphs/commit-activity" target="_blank">
+    <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" />
+  </a>
+  <a href="#" target="_blank">
+    <img alt="License: MPL--2.0" src="https://img.shields.io/github/license/Duvet05/@duvet05/esm-growth-chart" />
+  </a>
+</p>
 
-# OpenMRS ESM Template App
+> An Openmrs O3 version of the growth chart
 
-This repository provides a starting point for creating your own
-[OpenMRS Microfrontend](https://wiki.openmrs.org/display/projects/OpenMRS+3.0%3A+A+Frontend+Framework+that+enables+collaboration+and+better+User+Experience).
+### 🏠 [Homepage](https://github.com/PROYECTO-SANTACLOTILDE/esm-growth-chart-app)
 
-For more information, please see the
-[OpenMRS Frontend Developer Documentation](https://o3-docs.openmrs.org/#/).
-
-In particular, the [Setup](https://o3-docs.openmrs.org/docs/frontend-modules/setup) section can help you get started developing microfrontends in general. The [Creating a microfrontend](https://o3-docs.openmrs.org/docs/recipes/create-a-frontend-module) section provides information about how to use this repository to create your own microfrontend.
-
-## Running this code
+## Install
 
 ```sh
-yarn  # to install dependencies
-yarn start  # to run the dev server
+yarn install
 ```
 
-Once it is running, a browser window
-should open with the OpenMRS 3 application. Log in and then navigate to `/openmrs/spa/root`.
+## Usage
 
-## Adapting the code
+```sh
+yarn run start
+```
 
-1. Start by finding and replacing all instances of "template" with the name
-  of your microfrontend.
-2. Update `index.ts` as appropriate, at least changing the feature name and the page name and route.
-3. Rename the `root.*` family of files to have the name of your first page.
-4. Delete the contents of the objects in `config-schema`. Start filling them back in once you have a clear idea what will need to be configured.
-5. Delete the `greeter` and `patient-getter` directories, and the contents of `root.component.tsx`.
-6. Delete the contents of `translations/en.json`.
-7. Open up `.github/workflows` and adapt it to your needs. If you're writing
- a microfrontend that will be managed by the community, you might be able to
-  just replace all instances of `template` with your microfrontend's name.
-  However, if you're writing a microfrontend for a specific organization or
-  implementation, you will probably need to configure GitHub Actions differently.
-8. Delete the contents of this README and write a short explanation of what
-  you intend to build. Links to planning or design documents can be very helpful.
+## Run tests
 
-At this point, you should be able to write your first page as a React application.
+```sh
+yarn run test
+```
 
-Check out the [Medication dispensing app](https://github.com/openmrs/openmrs-esm-dispensing-app) for an example of a non-trivial app built using the Template.
+## Author
 
-## Integrating it into your application
+👤 **Gonzalo Galvez**
 
-Please see [Creating a Frontend Module](https://o3-docs.openmrs.org/docs/recipes/create-a-frontend-module).
+* Website: gamarradigital.com
+* Github: [@Duvet05](https://github.com/Duvet05)
+* LinkedIn: [@ggalvez](https://linkedin.com/in/ggalvez)
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
+***
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
