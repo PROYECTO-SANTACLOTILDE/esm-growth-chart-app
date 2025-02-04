@@ -122,6 +122,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
                   kind="ghost"
                   renderIcon={Printer}
                   iconDescription={t('print', 'Print')}
+                  className={styles.printButton}
                   onClick={() => window.print()}
                 >
                   {t('print', 'Print')}
@@ -141,9 +142,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
                   gender={genderParse}
                   setGender={setGenderParser}
                 />
-              </div>
 
-              <div className="mt-4">
                 <GrowthChartBuilder
                   measurementData={observations}
                   datasetValues={dataSetValues}
