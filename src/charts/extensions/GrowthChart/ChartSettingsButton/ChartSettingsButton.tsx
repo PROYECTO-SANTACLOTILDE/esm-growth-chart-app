@@ -11,10 +11,9 @@ interface ChartSettingsButtonProps {
   category: keyof typeof CategoryCodes;
   dataset: keyof ChartData;
   gender: string;
-  patient: Patient;
 }
 
-export const ChartSettingsButton = ({ category, dataset, gender, patient }: ChartSettingsButtonProps) => {
+export const ChartSettingsButton = ({ category, dataset, gender }: ChartSettingsButtonProps) => {
   const { t } = useTranslation();
 
   const handlePrintDocument = () => {
@@ -22,8 +21,6 @@ export const ChartSettingsButton = ({ category, dataset, gender, patient }: Char
       category,
       dataset,
       gender,
-      firstName: patient.person.names[0]?.givenName || '',
-      lastName: patient.person.names[0]?.familyName || '',
     });
   };
 
