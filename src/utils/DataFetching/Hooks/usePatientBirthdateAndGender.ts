@@ -15,17 +15,18 @@ const customRepresentation = 'custom:(uuid,gender,birthdate,birthdateEstimated)'
  * @param patientUuid Identificador único del paciente
  * @returns { gender, birthdate, birthdateEstimated, isLoading, error }
  */
-export const usePatientBirthdateAndGender = (patientUuid: string | null) => {
+export const usePatientBirthdateAndGender = (patientUuid) => {
   const { data, isLoading, error } = useSWRImmutable<{ data: PatientInfo }>(
     `${restBaseUrl}/person/${patientUuid}?v=${customRepresentation}`,
     openmrsFetch
   );
+
 
   return {
     gender: data?.data.gender ?? '',
     birthdate: data?.data.birthdate ?? '',
     birthdateEstimated: data?.data.birthdateEstimated ?? false,
     isLoading,
-    error,
+    error
   };
 };
