@@ -1,4 +1,3 @@
-// Sorting.ts (hook corregido)
 import { useEffect, useState } from 'react';
 import { type ChartData } from '../../types/chartDataTypes';
 
@@ -13,9 +12,8 @@ export const useChartDataForGender = ({ gender, chartData = {} }: ChartDataForGe
     useEffect(() => {
         const filteredData = Object.entries(chartData).reduce(
             (acc: ChartData, [key, value]) => {
-                // Añadir protección contra undefined con optional chaining
                 if (value?.categoryMetadata?.gender === gender) {
-                    acc[key] = value;
+                  acc[key] = value;
                 }
                 return acc;
             },

@@ -32,7 +32,7 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
 
   // 4. Procesar datos del gráfico con protección contra undefined
   const { chartDataForGender } = useChartDataForGender({
-    gender: genderParse || 'UNKNOWN', // Valor por defecto seguro
+    gender: genderParse, // Valor por defecto seguro
     chartData: config || {}, // Asegurar objeto vacío si es undefined
   });
 
