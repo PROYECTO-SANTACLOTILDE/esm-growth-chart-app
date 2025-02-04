@@ -4,6 +4,7 @@ import { Line } from 'react-chartjs-2';
 import Chart, { type ChartOptions } from 'chart.js/auto';
 import annotationPlugin from 'chartjs-plugin-annotation';
 import AutoSizer from 'react-virtualized-auto-sizer';
+
 import {
   type ChartDataTypes,
   type CategoryToLabel,
@@ -33,17 +34,21 @@ export const GrowthChartBuilder = ({
   dateOfBirth,
   isPercentiles,
 }: GrowthChartBuilderProps) => {
+  // Registramos el plugin de anotación
   Chart.register(annotationPlugin);
-  const { t } = useTranslation();
 
+  const { t } = useTranslation();
   const { minDataValue, maxDataValue } = yAxisValues;
 
+  // Obtenemos el "código" de medición según la categoría (peso, altura, etc.)
   const MeasuremenCode = MeasurementTypeCodes[category];
 
+  // Ajustes para el inicio del eje X
   const adjustIndex = dataset === DataSetLabels.y_2_5 ? 24 : 0;
   const startIndex =
     category !== CategoryCodes.wflh_b && category !== CategoryCodes.wflh_g ? adjustIndex : datasetMetadata.range.start;
 
+  // Datos de percentiles/z-scores
   const ChartLinesData = useChartLines(
     datasetValues,
     keysDataSet,
@@ -53,6 +58,8 @@ export const GrowthChartBuilder = ({
     startIndex,
     isPercentiles,
   );
+
+  // Datos de mediciones reales del paciente
   const MeasurementData = useMeasurementPlotting(
     measurementData,
     MeasuremenCode,
@@ -61,9 +68,16 @@ export const GrowthChartBuilder = ({
     dateOfBirth,
     startIndex,
   );
-  const data: any = { datasets: [...ChartLinesData, ...MeasurementData] };
+
+  // Armamos el objeto data para Chart.js
+  const data: any = {
+    datasets: [...ChartLinesData, ...MeasurementData],
+  };
+
+  // Anotaciones (líneas, áreas sombreadas, etc.)
   const annotations = GrowthChartAnnotations(ChartLinesData, datasetMetadata);
 
+  // Opciones de configuración
   const options: ChartOptions<'line'> = {
     elements: { point: { radius: 0, hoverRadius: 0 } },
     plugins: {
@@ -84,6 +98,7 @@ export const GrowthChartBuilder = ({
         ticks: {
           stepSize: 1,
           callback: (value: number, index, values) => {
+            // Manejamos la lógica de "Months" para ver Años / Meses
             if (datasetMetadata.xAxisLabel === 'Months') {
               const isFirstTick = index === 0;
               const isLastTick = index === values.length - 1;
@@ -124,10 +139,14 @@ export const GrowthChartBuilder = ({
   };
 
   return (
-    <div className="aspect-video min-h-[400px]" id="divToPrint">
-      <div>
-        <Line data={data} options={options} />
-      </div>
+    <div id="divToPrint" className="aspect-video w-full" style={{ minHeight: '400px' }}>
+      <AutoSizer>
+        {({ height, width }: { height: number; width: number }) => (
+          <div style={{ height, width }}>
+            <Line data={data} options={options} />
+          </div>
+        )}
+      </AutoSizer>
     </div>
   );
 };
