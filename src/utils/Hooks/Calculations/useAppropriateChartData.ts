@@ -24,7 +24,6 @@ export const useAppropriateChartData = (
     category: keyof typeof CategoryCodes
   ) => {
     const { datasets } = chartDataForGender[category];
-    console.log("datasets", datasets);
     const isMeasurementType = (xAxis: string) =>
       (
         Object.values(MeasurementTypeCodesLabel) as Array<
