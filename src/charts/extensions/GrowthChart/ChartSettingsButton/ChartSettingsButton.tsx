@@ -2,7 +2,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { OverflowMenuItem } from '@carbon/react';
 import { Printer } from '@carbon/react/icons';
-import { type Patient } from '@openmrs/esm-framework';
 import { EllipsisButton } from './EllipsisButton';
 import { type CategoryCodes, type ChartData } from '../../../../types/chartDataTypes';
 import { PrintDocument } from '../../../../utils/ChartOptions';

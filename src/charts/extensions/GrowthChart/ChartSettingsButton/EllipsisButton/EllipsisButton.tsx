@@ -23,10 +23,14 @@ export const EllipsisButton = ({
   const toggleMenu = () => setIsOpen((prev) => !prev);
   const closeMenu = () => setIsOpen(false);
 
+  // Asigna un ID único al botón
+  const buttonId = 'ellipsis-button';
+
   return (
     <>
       <Button
         ref={buttonRef}
+        id={buttonId} // Asigna el ID al botón
         kind={kind}
         size={size}
         data-testid={dataTest}
@@ -42,7 +46,7 @@ export const EllipsisButton = ({
             onClose={closeMenu}
             aria-label="Additional options"
             menuOptionsClass="custom-overflow-menu"
-            selectorPrimaryFocus={buttonRef.current || undefined}
+            selectorPrimaryFocus={`#${buttonId}`} // Usa el ID como selector
           >
             {children}
           </OverflowMenu>
