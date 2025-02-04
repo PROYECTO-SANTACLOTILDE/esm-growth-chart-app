@@ -40,7 +40,7 @@ yarn run test
 
 * Website: gamarradigital.com
 * Github: [@Duvet05](https://github.com/Duvet05)
-* LinkedIn: [@ggalvez](https://linkedin.com/in/ggalvez)
+* LinkedIn: [@galvezc](https://linkedin.com/in/galvezc)
 
 ## Show your support
 
