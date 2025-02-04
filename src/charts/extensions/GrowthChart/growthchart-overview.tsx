@@ -25,13 +25,15 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   const { gender: rawGender, birthdate, isLoading, error } = usePatientBirthdateAndGender(patientUuid);
 
   useEffect(() => {
-    setGenderParser(rawGender);
-  }, [error, isLoading, rawGender]);
+    if (rawGender && typeof rawGender === 'string') {
+      setGenderParser(rawGender.toUpperCase()); // Normalizar a mayúsculas
+    }
+  }, [rawGender, error, isLoading]);
 
   // 4. Procesar datos del gráfico con protección contra undefined
-  const { chartDataForGender = {} } = useChartDataForGender({
-    gender: genderParse,
-    chartData: config,
+  const { chartDataForGender } = useChartDataForGender({
+    gender: genderParse || 'UNKNOWN', // Valor por defecto seguro
+    chartData: config || {}, // Asegurar objeto vacío si es undefined
   });
 
   // 3. Obtener observaciones médicas con tipo explícito
@@ -48,7 +50,8 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   const childAgeInMonths = useMemo(() => differenceInMonths(new Date(), dateOfBirth), [dateOfBirth]);
 
   // 6. Definir indicadores por defecto
-  const defaultIndicator = Object.keys(chartDataForGender)[0] || '';
+  const defaultIndicator = Object.keys(chartDataForGender || {})[0] || '';
+
   const isPercentiles = true; // Asumiendo un valor por defecto si no está definido en otro lugar
 
   // 7. Selección de categoría/dataset con valores por defecto
