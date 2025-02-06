@@ -1,6 +1,6 @@
 {
   "name": "@pucp-gidis-hiisc/esm-growth-chart-app",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "An OpenMRS O3 version of the growth chartjs",
   "keywords": [
     "openmrs",
