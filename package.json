@@ -1,11 +1,24 @@
 {
-  "name": "@duvet05/esm-growth-chart-app",
+  "name": "@pucp-gidis-hiisc/esm-growth-chart-app",
   "version": "1.0.0",
-  "license": "MPL-2.0",
   "description": "An OpenMRS O3 version of the growth chartjs",
-  "browser": "dist/openmrs-esm-growth-chart-app.js",
+  "keywords": [
+    "openmrs",
+    "microfrontends",
+    "growth-chart"
+  ],
+  "homepage": "https://github.com/PROYECTO-SANTACLOTILDE/esm-growth-chart-app#readme",
+  "bugs": {
+    "url": "https://github.com/PROYECTO-SANTACLOTILDE/esm-growth-chart-app/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PROYECTO-SANTACLOTILDE/esm-growth-chart-app.git"
+  },
+  "license": "MPL-2.0",
+  "author": "Gonzalo Galvez",
   "main": "src/index.ts",
-  "source": true,
+  "browser": "dist/openmrs-esm-growth-chart-app.js",
   "scripts": {
     "start": "openmrs develop",
     "serve": "webpack serve --mode=development",
@@ -20,25 +33,6 @@
     "prepare": "husky install",
     "extract-translations": "i18next 'src/**/*.tsx' --config ./i18next-parser.config.js",
     "test-e2e": "playwright test"
-  },
-  "browserslist": [
-    "extends browserslist-config-openmrs"
-  ],
-  "keywords": [
-    "openmrs",
-    "microfrontends",
-    "growth-chart"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/PROYECTO-SANTACLOTILDE/esm-growth-chart-app.git"
-  },
-  "homepage": "https://github.com/PROYECTO-SANTACLOTILDE/esm-growth-chart-app#readme",
-  "publishConfig": {
-    "access": "public"
-  },
-  "bugs": {
-    "url": "https://github.com/PROYECTO-SANTACLOTILDE/esm-growth-chart-app/issues"
   },
   "dependencies": {
     "@carbon/charts-react": "^1.22.8",
@@ -66,14 +60,6 @@
     "swr": "^2.3.0",
     "yarn": "^1.22.22"
   },
-  "peerDependencies": {
-    "@openmrs/esm-framework": "*",
-    "dayjs": "1.x",
-    "react": "18.x",
-    "react-i18next": "11.x",
-    "react-router-dom": "6.x",
-    "rxjs": "6.x"
-  },
   "devDependencies": {
     "@openmrs/esm-framework": "^6.0.3-pre.2596",
     "@openmrs/esm-styleguide": "next",
@@ -90,6 +76,7 @@
     "@types/react-dom": "^18.2.6",
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
+    "@types/webpack-bundle-analyzer": "^4",
     "@types/webpack-env": "^1.18.1",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
@@ -119,8 +106,24 @@
     "turbo": "^2.2.3",
     "typescript": "^4.9.5",
     "webpack": "^5.88.1",
+    "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.4"
   },
+  "peerDependencies": {
+    "@openmrs/esm-framework": "*",
+    "dayjs": "1.x",
+    "react": "18.x",
+    "react-i18next": "11.x",
+    "react-router-dom": "6.x",
+    "rxjs": "6.x"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "source": true,
+  "browserslist": [
+    "extends browserslist-config-openmrs"
+  ],
   "lint-staged": {
     "packages/**/src/**/*.{ts,tsx}": "eslint --cache --fix --max-warnings 0",
     "*.{css,scss,ts,tsx}": "prettier --write --list-different"

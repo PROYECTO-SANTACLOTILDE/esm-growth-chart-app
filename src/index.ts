@@ -7,7 +7,7 @@
 import { getAsyncLifecycle, defineConfigSchema } from '@openmrs/esm-framework';
 import { configSchema } from './config-schema';
 
-const moduleName = '@duvet05/esm-growth-chart-app';
+const moduleName = '@pucp-gidis-hiisc/esm-growth-chart-app';
 
 const options = {
   featureName: 'root-world',
