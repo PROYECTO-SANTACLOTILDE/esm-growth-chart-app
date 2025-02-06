@@ -88,28 +88,23 @@ const GrowthChartOverview: React.FC<GrowthChartProps> = ({ patientUuid, config }
   const { min = 0, max = 100 } = useCalculateMinMaxValues(dataSetValues);
   const [minDataValue, maxDataValue] = useMemo(() => [Math.max(0, Math.floor(min)), Math.ceil(max)], [min, max]);
 
-  // ---- Manejo de estados OpenMRS-lik
   return (
     <>
       {(() => {
-        // 1. Loading => Skeleton
         if (isLoading) {
           return <DataTableSkeleton role="progressbar" zebra={false} />;
         }
 
-        // 2. Error => ErrorState
         if (error) {
           return <ErrorState error={error} headerTitle={headerTitle} />;
         }
 
-        // 3. Sin dataset seleccionado o sin datos => EmptyState
         if (!selectedDataset || !dataSetEntry || !dataSetValues.length) {
           return (
             <EmptyState displayText={t('noChartDataAvailable', 'No chart data available')} headerTitle={headerTitle} />
           );
         }
 
-        // 4. Render principal (Card con GrowthChart)
         return (
           <div className={styles.widgetCard}>
             <CardHeader title={headerTitle}>
