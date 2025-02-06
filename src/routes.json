@@ -10,11 +10,5 @@
       "component": "growthChart",
       "slot": "Charts"
     }
-  ],
-  "pages": [
-    {
-      "component": "root",
-      "route": "test"
-    }
   ]
 }
