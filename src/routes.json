@@ -6,7 +6,7 @@
   },
   "extensions": [
     {
-      "name": "Growth Chart",
+      "name": "Growth Chart Widget",
       "component": "growthChart",
       "slot": "Charts"
     }

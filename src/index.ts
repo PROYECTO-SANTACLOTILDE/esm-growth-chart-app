@@ -10,7 +10,7 @@ import { configSchema } from './config-schema';
 const moduleName = '@pucp-gidis-hiisc/esm-growth-chart-app';
 
 const options = {
-  featureName: 'root-world',
+  featureName: 'growth-chart-app',
   moduleName,
 };
 
@@ -37,8 +37,6 @@ export function startupApp() {
  * will be `openmrsSpaBase() + 'root'`, which is usually
  * `/openmrs/spa/root`.
  */
-export const root = getAsyncLifecycle(() => import('./root.component'), options);
-
 export const growthChart = getAsyncLifecycle(
   () => import('./charts/extensions/GrowthChart/growthchart-overview'),
   options,
