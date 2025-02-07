@@ -9,6 +9,15 @@
       "name": "Growth Chart Widget",
       "component": "growthChart",
       "slot": "Charts"
+    },
+    {
+      "name": "growth-chart-overview-widget",
+      "component": "growthChart",
+      "slot": "patient-chart-summary-dashboard-slot",
+      "meta": {
+        "fullWidth": false
+      },
+      "order": 2
     }
   ]
 }
